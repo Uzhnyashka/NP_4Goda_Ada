@@ -8,6 +8,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.presenters.authorization.signUp.SignUpPresenter;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -17,6 +18,8 @@ import butterknife.OnClick;
  */
 
 public class SignUpFragment extends Fragment implements SignUpView {
+
+    private SignUpPresenter mPresenter;
 
     public static SignUpFragment newInstance() {
         Bundle args = new Bundle();
@@ -28,6 +31,7 @@ public class SignUpFragment extends Fragment implements SignUpView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mPresenter = new SignUpPresenter();
     }
 
     @Nullable

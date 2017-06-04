@@ -8,11 +8,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventAuthChangeFragment;
+import com.example.bobyk.np.presenters.authorization.signIn.SignInPresenter;
 import com.example.bobyk.np.utils.Role;
 import com.example.bobyk.np.views.authorization.signUp.SignUpFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -40,10 +42,15 @@ public class SignInFragment extends Fragment implements SignInView {
     EditText mEmailEditText;
     @Bind(R.id.et_password)
     EditText mPasswordEditText;
+    @Bind(R.id.rl_or)
+    RelativeLayout orRelativeLayout;
+    @Bind(R.id.rl_social)
+    RelativeLayout socialRelativeLayout;
 
     private Role mRole;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener authStateListener;
+    private SignInPresenter mPresenter;
 
     public static SignInFragment newInstance(Role role) {
         Bundle args = new Bundle();
@@ -56,7 +63,7 @@ public class SignInFragment extends Fragment implements SignInView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mAuth = FirebaseAuth.getInstance();
+        mPresenter = new SignInPresenter(getActivity(), this);
     }
 
     @Nullable
@@ -73,8 +80,12 @@ public class SignInFragment extends Fragment implements SignInView {
         signInLabelTextView.setText("Sign in as " + mRole.toString());
         if (mRole == Role.USER) {
             signUpMemberTextView.setVisibility(View.VISIBLE);
+            socialRelativeLayout.setVisibility(View.VISIBLE);
+            orRelativeLayout.setVisibility(View.VISIBLE);
         } else {
             signUpMemberTextView.setVisibility(View.GONE);
+            socialRelativeLayout.setVisibility(View.GONE);
+            orRelativeLayout.setVisibility(View.GONE);
         }
     }
 
@@ -89,20 +100,16 @@ public class SignInFragment extends Fragment implements SignInView {
 
     @OnClick(R.id.btn_sign_in)
     public void onSignInClick() {
-        signIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
+        mPresenter.signIn(mEmailEditText.getText().toString(), mPasswordEditText.getText().toString());
     }
 
-    private void signIn(String email, String password) {
-        mAuth.signInWithEmailAndPassword(email, password)
-                .addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
-                        } else {
-                            Toast.makeText(getActivity(), "Fail", Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
+    @Override
+    public void onSuccessSingIn() {
+        Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onFailSignIn(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
     }
 }
