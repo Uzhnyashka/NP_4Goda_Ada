@@ -21,7 +21,7 @@
         android:layout_centerVertical="true"
         android:textSize="16sp"
         android:lines="1"
-        android:inputType="textNoSuggestions"
+        android:inputType="textEmailAddress"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_12sdp"
@@ -70,7 +70,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="@dimen/_35sdp"
-        android:id="@+id/btn_login"
+        android:id="@+id/btn_sign_up"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/et_confirm_password"
         android:layout_marginTop="@dimen/_18sdp"
@@ -78,7 +78,7 @@
         android:layout_marginStart="@dimen/_38sdp"
         android:layout_marginEnd="@dimen/_38sdp"
         android:textAllCaps="false"
-        android:text="Continue"
+        android:text="Next"
         android:background="@drawable/button_sign_in"
         android:textColor="@android:color/black"
         />
