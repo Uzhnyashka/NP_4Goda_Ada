@@ -8,9 +8,13 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.event.EventAuthChangeFragment;
 import com.example.bobyk.np.presenters.authorization.emailVerification.EmailVerificationPresenter;
 import com.example.bobyk.np.utils.Utils;
+import com.example.bobyk.np.views.authorization.additionalData.AdditionalDataFragment;
 import com.google.firebase.auth.FirebaseUser;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.ButterKnife;
 import butterknife.OnClick;
@@ -47,7 +51,7 @@ public class EmailVerificationFragment extends Fragment implements EmailVerifica
 
     @Override
     public void onSuccessVerified(FirebaseUser user) {
-
+        EventBus.getDefault().post(new EventAuthChangeFragment(AdditionalDataFragment.newInstance(), true));
     }
 
     @Override

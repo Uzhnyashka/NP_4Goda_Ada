@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/rl_create_username"
+    android:background="@color/app_bg_color">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rl_crop_content"
+        android:visibility="invisible"
+        >
+
+        <com.theartofdev.edmodo.cropper.CropImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/crop_image_view"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_crop_image"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_share"
+            android:padding="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="4dp"
+            />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rl_create_username_content">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_above="@+id/et_firstname">
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:layout_width="@dimen/_100sdp"
+                android:layout_height="@dimen/_100sdp"
+                android:id="@+id/iv_choose_image"
+                android:src="@drawable/add_photo"
+                app:civ_border_color="@color/colorLoginButton"
+                app:civ_border_width="3dp"
+                android:layout_centerVertical="true"
+                android:layout_centerHorizontal="true" />
+        </RelativeLayout>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_firstname"
+            android:layout_centerHorizontal="true"
+            android:layout_above="@+id/et_surname"
+            android:textSize="16sp"
+            android:lines="1"
+            android:inputType="textEmailAddress"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:textColor="@color/app_text_color"
+            android:textColorHint="@color/app_hint_text_color"
+            android:hint="@string/firstname"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_surname"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textSize="16sp"
+            android:lines="1"
+            android:inputType="textEmailAddress"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:textColor="@color/app_text_color"
+            android:textColorHint="@color/app_hint_text_color"
+            android:hint="@string/surname"
+            />
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/et_middlename"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/et_surname"
+            android:textSize="16sp"
+            android:lines="1"
+            android:inputType="textEmailAddress"
+            android:layout_marginStart="@dimen/_16sdp"
+            android:layout_marginEnd="@dimen/_16sdp"
+            android:layout_marginTop="@dimen/_12sdp"
+            android:layout_marginBottom="@dimen/_12sdp"
+            android:textColor="@color/app_text_color"
+            android:textColorHint="@color/app_hint_text_color"
+            android:hint="@string/middlename"
+            />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/et_middlename"
+            >
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/_35sdp"
+                android:id="@+id/btn_sign_up"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:layout_marginTop="@dimen/_18sdp"
+                android:layout_marginBottom="@dimen/_56sdp"
+                android:layout_marginStart="@dimen/_38sdp"
+                android:layout_marginEnd="@dimen/_38sdp"
+                android:textAllCaps="false"
+                android:text="Sign up"
+                android:background="@drawable/button_sign_in"
+                android:textColor="@android:color/black"
+                />
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+
+</RelativeLayout>

@@ -4,6 +4,9 @@
     <string name="password">Password</string>
     <string name="confirm_password">Confirm Password</string>
     <string name="email">Email</string>
+    <string name="firstname">First name</string>
+    <string name="surname">Surname</string>
+    <string name="middlename">Middle name</string>
     <string name="sign_in">Sign in</string>
     <string name="sign_up">Sign up</string>
     <string name="facebook_app_id">1892865004321063</string>
