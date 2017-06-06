@@ -7,15 +7,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bobyk.np.R;
+
+import butterknife.ButterKnife;
+
 /**
  * Created by bobyk on 6/6/17.
  */
 
-public class MainInfoHostFragment extends Fragment implements MainInfoHostView {
+public class InfoHostFragment extends Fragment implements InfoHostView {
 
-    public static MainInfoHostFragment newInstance() {
+    public static InfoHostFragment newInstance() {
         Bundle args = new Bundle();
-        MainInfoHostFragment fragment = new MainInfoHostFragment();
+        InfoHostFragment fragment = new InfoHostFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -28,6 +32,19 @@ public class MainInfoHostFragment extends Fragment implements MainInfoHostView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_info_host, null);
+
+        ButterKnife.bind(this, view);
+
+        return view;
+    }
+
+    public boolean onBackPressed() {
+        if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+            getChildFragmentManager().popBackStack();
+            return true;
+        } else {
+            return false;
+        }
     }
 }

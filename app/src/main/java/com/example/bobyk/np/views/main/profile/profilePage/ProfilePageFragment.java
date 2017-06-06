@@ -7,6 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.example.bobyk.np.R;
+
+import butterknife.ButterKnife;
+
 /**
  * Created by bobyk on 6/6/17.
  */
@@ -28,6 +32,10 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_profile_page, null);
+
+        ButterKnife.bind(this, view);
+
+        return view;
     }
 }
