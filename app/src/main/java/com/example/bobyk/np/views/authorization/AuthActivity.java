@@ -1,6 +1,9 @@
 package com.example.bobyk.np.views.authorization;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -21,6 +24,7 @@ import com.example.bobyk.np.utils.WeatherImageConverter;
 import com.example.bobyk.np.views.authorization.signIn.SignInFragment;
 import com.example.bobyk.np.views.authorization.startScreen.StartScreenFragment;
 import com.example.bobyk.np.views.main.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -39,6 +43,9 @@ public class AuthActivity extends AppCompatActivity {
     FrameLayout mContainerFrameLayout;
 //    @Bind(R.id.background_slides)
     SlideView backgroundSlidesView;
+
+    private BroadcastReceiver mBroadcastReceiver;
+    private boolean registred;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -66,6 +73,22 @@ public class AuthActivity extends AppCompatActivity {
 
     private void init() {
         changeFragment(StartScreenFragment.newInstance(), false);
+        configBroadcastReceiver();
+    }
+
+    private void configBroadcastReceiver() {
+        registred = false;
+        mBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int task = intent.getIntExtra(Constants.PARAM_TASK, 0);
+                if (task == Constants.REGISTRED) {
+                    registred = true;
+                }
+            }
+        };
+        IntentFilter filter = new IntentFilter(Constants.BROADCAST_ACTION);
+        registerReceiver(mBroadcastReceiver, filter);
     }
 
     private void initBG() {
@@ -121,8 +144,17 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
     protected void onDestroy() {
-        super.onDestroy();
+        System.out.println("EEEE " + registred);
+        if (!registred) {
+            FirebaseAuth.getInstance().getCurrentUser().delete();
+        }
         SPManager.storeUserLoginData(this, Constants.PARAM_USERNAME, "");
+        super.onDestroy();
     }
 }

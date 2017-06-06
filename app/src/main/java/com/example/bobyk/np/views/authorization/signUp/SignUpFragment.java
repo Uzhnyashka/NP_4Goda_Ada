@@ -15,6 +15,7 @@ import com.example.bobyk.np.presenters.authorization.emailVerification.EmailVeri
 import com.example.bobyk.np.presenters.authorization.signUp.SignUpPresenter;
 import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.authorization.emailVerification.EmailVerificationFragment;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 
@@ -100,5 +101,11 @@ public class SignUpFragment extends Fragment implements SignUpView {
     @Override
     public void onFailSendEmailVerification(String message) {
         Utils.showToastMessage(getActivity(), message);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        FirebaseAuth.getInstance().getCurrentUser().delete();
     }
 }

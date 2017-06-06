@@ -25,6 +25,8 @@ import com.example.bobyk.np.listeners.FileSavedListener;
 import com.example.bobyk.np.presenters.authorization.additionalData.AdditionalDataPresenter;
 import com.example.bobyk.np.utils.SaveBitmapToFileTask;
 import com.example.bobyk.np.utils.Utils;
+import com.example.bobyk.np.views.main.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 import com.theartofdev.edmodo.cropper.CropImageView;
 
 import java.io.File;
@@ -61,6 +63,7 @@ public class AdditionalDataFragment extends Fragment implements AdditionalDataVi
     private boolean mProfileImageChoosen = false;
     private String imageFilePath;
     private Bitmap mUserPhotoBitmap = null;
+    private boolean registred = false;
 
     public static AdditionalDataFragment newInstance() {
         Bundle args = new Bundle();
@@ -111,6 +114,13 @@ public class AdditionalDataFragment extends Fragment implements AdditionalDataVi
 
     @Override
     public void onSuccessSignUp() {
+        Intent intent = new Intent(Constants.BROADCAST_ACTION);
+        intent.putExtra(Constants.PARAM_TASK, Constants.REGISTRED);
+        getActivity().sendBroadcast(intent);
+        registred = true;
+
+        startActivity(new Intent(getContext().getApplicationContext(), MainActivity.class));
+
         getActivity().finish();
     }
 
@@ -216,5 +226,13 @@ public class AdditionalDataFragment extends Fragment implements AdditionalDataVi
                 createUsernameContent.setVisibility(View.VISIBLE);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (!registred) {
+            FirebaseAuth.getInstance().getCurrentUser().delete();
+        }
     }
 }

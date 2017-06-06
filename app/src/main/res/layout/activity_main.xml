@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/root_layout"
+    android:background="@color/app_text_color">
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/fl_main_container"
+        />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:id="@+id/border_main"
+        android:layout_above="@+id/bottomBar"
+        android:background="@android:color/darker_gray"
+        />
+
+    <android.support.design.widget.TabLayout
+        android:layout_width="match_parent"
+        android:id="@+id/bottomBar"
+        style="@style/AppTabLayout"
+        android:layout_height="@dimen/_42sdp"
+        android:layout_alignParentBottom="true"/>
+
+</RelativeLayout>

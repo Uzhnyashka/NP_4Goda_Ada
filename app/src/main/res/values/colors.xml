@@ -11,7 +11,7 @@
     <color name="colorBackgroundForgotPassword">#ffffff</color>
     <color name="colorActionBarForgotPassword">#33121212</color>
     <color name="colorTextForgotPassword">#000000</color>
-    <color name="appColorPrimary">#FFFC5A5B</color>
+    <color name="appColorPrimary">#b4bed1</color>
     <color name="appColorPrimaryDark">#FFFC5A5B</color>
     <color name="colorWhite">#ffffff</color>
     <color name="colorPostData">#4794d7</color>
