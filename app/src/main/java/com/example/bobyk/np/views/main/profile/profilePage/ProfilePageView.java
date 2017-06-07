@@ -5,4 +5,7 @@ package com.example.bobyk.np.views.main.profile.profilePage;
  */
 
 public interface ProfilePageView {
+    void setFullName(String name);
+    void setPhoneNumber(String phoneNumber);
+    void setPhoto(String photoUrl);
 }

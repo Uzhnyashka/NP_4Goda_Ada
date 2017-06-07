@@ -231,8 +231,8 @@ public class AdditionalDataFragment extends Fragment implements AdditionalDataVi
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if (!registred) {
-            FirebaseAuth.getInstance().getCurrentUser().delete();
-        }
+//        if (!registred) {
+//            FirebaseAuth.getInstance().getCurrentUser().delete();
+//        }
     }
 }

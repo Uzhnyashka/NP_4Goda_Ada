@@ -25,6 +25,7 @@ import com.example.bobyk.np.views.authorization.signIn.SignInFragment;
 import com.example.bobyk.np.views.authorization.startScreen.StartScreenFragment;
 import com.example.bobyk.np.views.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.EventBus;
@@ -54,8 +55,6 @@ public class AuthActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         Utils.isNetworkConnected(this);
         checkAuthUser();
-        init();
-
     }
 
     @Override
@@ -65,9 +64,13 @@ public class AuthActivity extends AppCompatActivity {
     }
 
     private void checkAuthUser() {
-        if (!SPManager.loadUserLoginData(getApplicationContext(), Constants.PARAM_USER_ID).equals("")) {
+        FirebaseUser user = FirebaseAuth.getInstance()
+                .getCurrentUser();
+        if (FirebaseAuth.getInstance().getCurrentUser() != null) {
             startActivity(new Intent(getApplicationContext(), MainActivity.class));
             finish();
+        } else {
+            init();
         }
     }
 
@@ -150,11 +153,11 @@ public class AuthActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        System.out.println("EEEE " + registred);
-        if (!registred) {
-            FirebaseAuth.getInstance().getCurrentUser().delete();
-        }
-        SPManager.storeUserLoginData(this, Constants.PARAM_USERNAME, "");
+//        System.out.println("EEEE " + registred);
+//        if (!registred) {
+//            FirebaseAuth.getInstance().getCurrentUser().delete();
+//        }
+//        SPManager.storeUserLoginData(this, Constants.PARAM_USERNAME, "");
         super.onDestroy();
     }
 }

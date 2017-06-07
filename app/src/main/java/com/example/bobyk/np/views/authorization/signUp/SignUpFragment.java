@@ -106,6 +106,6 @@ public class SignUpFragment extends Fragment implements SignUpView {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        FirebaseAuth.getInstance().getCurrentUser().delete();
+//        FirebaseAuth.getInstance().getCurrentUser().delete();
     }
 }

@@ -1,5 +1,6 @@
 package com.example.bobyk.np.views.authorization.signIn;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -18,6 +19,7 @@ import com.example.bobyk.np.event.EventAuthChangeFragment;
 import com.example.bobyk.np.presenters.authorization.signIn.SignInPresenter;
 import com.example.bobyk.np.utils.Role;
 import com.example.bobyk.np.views.authorization.signUp.SignUpFragment;
+import com.example.bobyk.np.views.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -110,7 +112,9 @@ public class SignInFragment extends Fragment implements SignInView {
 
     @Override
     public void onSuccessSingIn() {
-        Toast.makeText(getActivity(), "Success", Toast.LENGTH_SHORT).show();
+        startActivity(new Intent(getContext().getApplicationContext(), MainActivity.class));
+
+        getActivity().finish();
     }
 
     @Override

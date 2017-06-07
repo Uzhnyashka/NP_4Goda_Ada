@@ -1,17 +1,208 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        android:text="Profile"
-        android:textColor="@color/app_bg_color"
-        />
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_behavior="com.example.bobyk.vlogmi.utils.FlingBehavior"
+        app:layout_scrollFlags="scroll|enterAlways">
+
+        <android.support.design.widget.CollapsingToolbarLayout
+            android:id="@+id/collapsingToolBarLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:overScrollMode="always"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            >
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
+                android:id="@+id/iv_background"
+                android:layout_below="@+id/rl_toolbar"
+                android:src="@drawable/deliverybox"
+                android:scaleType="centerCrop"
+                app:layout_collapseMode="parallax"
+                app:layout_collapseParallaxMultiplier="0.9"
+                />
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:id="@+id/rl_toolbar"
+                    android:background="@color/colorLoginButton">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/btn_back"
+                        android:src="@drawable/arrow_back"
+                        android:layout_centerVertical="true"
+                        android:layout_marginStart="@dimen/_4sdp"
+                        android:padding="8dp"
+                        android:layout_alignParentStart="true"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="38dp"
+                        android:id="@+id/tv_toolbar_text"
+                        android:layout_centerVertical="true"
+                        android:textColor="@color/colorWhite"
+                        android:gravity="center"
+                        android:textSize="22sp"
+                        android:text="NP"
+                        />
+
+                    <ImageView
+                        android:layout_width="32dp"
+                        android:layout_height="32dp"
+                        android:id="@+id/btn_setting"
+                        android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="4dp"
+                        android:padding="4dp"
+                        android:layout_centerVertical="true"
+                        android:src="@drawable/ic_setting"
+                        />
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:id="@+id/rl_follow_info"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="12dp"
+                    android:layout_marginTop="@dimen/_156sdp"
+                    android:layout_below="@id/rl_toolbar"
+                    android:background="@color/colorWhite"
+                    >
+
+                    <!--<RelativeLayout-->
+                        <!--android:id="@+id/rl_following"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_marginEnd="32dp"-->
+                        <!--android:layout_alignParentEnd="true">-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/tv_following_label"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:layout_margin="2dp"-->
+                            <!--android:layout_centerHorizontal="true"-->
+                            <!--android:textColor="@color/bb_darkBackgroundColor"-->
+                            <!--android:text="Following"-->
+                            <!--android:textSize="16sp"-->
+                            <!--/>-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/tv_count_following"-->
+                            <!--android:layout_below="@+id/tv_following_label"-->
+                            <!--android:layout_centerHorizontal="true"-->
+                            <!--android:textColor="@color/bb_darkBackgroundColor"-->
+                            <!--android:layout_margin="2dp"-->
+                            <!--/>-->
+
+                    <!--</RelativeLayout>-->
+
+                    <!--<RelativeLayout-->
+                        <!--android:id="@+id/rl_followers"-->
+                        <!--android:layout_width="wrap_content"-->
+                        <!--android:layout_height="wrap_content"-->
+                        <!--android:layout_alignParentStart="true"-->
+                        <!--android:layout_marginStart="32dp">-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/tv_followers_label"-->
+                            <!--android:textStyle="bold"-->
+                            <!--android:layout_margin="2dp"-->
+                            <!--android:textColor="@color/bb_darkBackgroundColor"-->
+                            <!--android:text="Followers"-->
+                            <!--android:textSize="16sp"-->
+                            <!--/>-->
+
+                        <!--<TextView-->
+                            <!--android:layout_width="wrap_content"-->
+                            <!--android:layout_height="wrap_content"-->
+                            <!--android:id="@+id/tv_count_followers"-->
+                            <!--android:layout_below="@+id/tv_followers_label"-->
+                            <!--android:textColor="@color/bb_darkBackgroundColor"-->
+                            <!--android:layout_margin="2dp"-->
+                            <!--android:layout_centerHorizontal="true"-->
+                            <!--/>-->
+
+                    <!--</RelativeLayout>-->
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/rl_follow_info"
+                    android:id="@+id/iv_sda"
+                    android:paddingTop="@dimen/_50sdp"
+                    android:background="@color/colorWhite">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_full_name"
+                        android:gravity="center"
+                        android:layout_marginTop="12dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="4dp"
+                        android:textSize="16sp"
+                        android:textStyle="bold"
+                        android:textColor="@color/colorPostUsername"
+                        />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/tv_phone_number"
+                        android:layout_below="@+id/tv_full_name"
+                        android:gravity="center"
+                        android:layout_marginTop="4dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginEnd="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="@color/colorGrayText"
+                        />
+
+                </RelativeLayout>
+
+
+                <de.hdodenhof.circleimageview.CircleImageView
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="@dimen/_156sdp"
+                    android:id="@+id/iv_profile_image"
+                    android:src="@drawable/box"
+                    android:layout_centerHorizontal="true"
+                    app:civ_border_width="2dp"
+                    app:civ_border_color="@color/colorWhite"/>
+
+            </RelativeLayout>
+
+        </android.support.design.widget.CollapsingToolbarLayout>
+
+
+    </android.support.design.widget.AppBarLayout>
+
 
 </RelativeLayout>
