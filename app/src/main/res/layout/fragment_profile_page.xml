@@ -26,6 +26,7 @@
                 android:id="@+id/iv_background"
                 android:layout_below="@+id/rl_toolbar"
                 android:src="@drawable/deliverybox"
+                android:padding="@dimen/_130sdp"
                 android:scaleType="centerCrop"
                 app:layout_collapseMode="parallax"
                 app:layout_collapseParallaxMultiplier="0.9"

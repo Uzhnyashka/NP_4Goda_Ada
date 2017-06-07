@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.FrameLayout;
 
 import com.example.bobyk.np.R;
@@ -48,9 +47,9 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private void init() {
         initFragment();
         if (mBottomBar != null) {
-            mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selecetor_notification), false);
-            mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selecetor_notification), true);
-            mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selecetor_notification), false);
+            mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_notification), false);
+            mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_info), true);
+            mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_profile), false);
             mBottomBar.addOnTabSelectedListener(this);
             setActiveCurrentFragment();
         }
