@@ -52,7 +52,7 @@ public class NotificationFragment extends Fragment implements NotificationView {
     }
 
     private void init() {
-
+        mPresenter.loadNotifications();
     }
 
     public boolean onBackPressed() {

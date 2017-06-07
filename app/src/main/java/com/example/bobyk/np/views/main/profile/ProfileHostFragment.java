@@ -93,6 +93,11 @@ public class ProfileHostFragment extends Fragment implements ProfileHostView{
     }
 
     public boolean onBackPressed() {
-        return false;
+        if (getChildFragmentManager().getBackStackEntryCount() > 0) {
+            getChildFragmentManager().popBackStack();
+            return true;
+        } else {
+            return false;
+        }
     }
 }
