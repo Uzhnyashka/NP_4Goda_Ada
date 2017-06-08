@@ -10,7 +10,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.event.EventMainChangeFragment;
+import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.presenters.main.profile.profilePage.ProfilePagePresenter;
+import com.example.bobyk.np.views.main.profile.settings.SettingsFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -18,8 +21,11 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
+import org.greenrobot.eventbus.EventBus;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
@@ -37,6 +43,7 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
 
     private ProfilePagePresenter mPresenter;
     private DisplayImageOptions mOptions;
+    private User mUser;
 
     public static ProfilePageFragment newInstance() {
         Bundle args = new Bundle();
@@ -67,6 +74,11 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
         mPresenter.initUserData();
     }
 
+    @OnClick(R.id.btn_setting)
+    public void onSettingsClick() {
+        EventBus.getDefault().post(new EventMainChangeFragment(SettingsFragment.newInstance(mUser), true, 3));
+    }
+
     @Override
     public void setFullName(String name) {
         mFullNameTextView.setText(name);
@@ -81,6 +93,11 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
     public void setPhoto(String photoUrl) {
         ImageLoader imageLoader = ImageLoader.getInstance();
         imageLoader.displayImage(photoUrl, mProfileImageView, mOptions);
+    }
+
+    @Override
+    public void setUser(User user) {
+        mUser = user;
     }
 
     private void configImageLoader() {

@@ -6,6 +6,14 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+
+import com.example.bobyk.np.R;
+import com.example.bobyk.np.models.authorization.User;
+
+import butterknife.Bind;
+import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by bobyk on 6/6/17.
@@ -13,10 +21,24 @@ import android.view.ViewGroup;
 
 public class SettingsFragment extends Fragment implements SettingsView {
 
-    public static SettingsFragment newInstance() {
+    @Bind(R.id.tv_first_name)
+    TextView mFirstNameTextView;
+    @Bind(R.id.tv_surname)
+    TextView mSurnameTextView;
+    @Bind(R.id.tv_middle_name)
+    TextView mMiddleNameTextView;
+    @Bind(R.id.tv_email)
+    TextView mEmailTextView;
+    @Bind(R.id.tv_phone_number)
+    TextView mPhoneNumberTextView;
+
+    private User mUser;
+
+    public static SettingsFragment newInstance(User user) {
         Bundle args = new Bundle();
         SettingsFragment fragment = new SettingsFragment();
         fragment.setArguments(args);
+        fragment.setUser(user);
         return fragment;
     }
 
@@ -28,6 +50,33 @@ public class SettingsFragment extends Fragment implements SettingsView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return super.onCreateView(inflater, container, savedInstanceState);
+        View view = inflater.inflate(R.layout.fragment_settings, null);
+
+        ButterKnife.bind(this, view);
+        init();
+
+        return view;
+    }
+
+    private void init() {
+        mFirstNameTextView.setText(mUser.getFirstName());
+        mSurnameTextView.setText(mUser.getSurname());
+        mMiddleNameTextView.setText(mUser.getMiddleName());
+        mEmailTextView.setText(mUser.getEmail());
+        mPhoneNumberTextView.setText(mUser.getPhoneNumber());
+    }
+
+    private void initUserData() {
+
+    }
+
+    @OnClick(R.id.btn_back)
+    public void onBackClick() {
+        getActivity().onBackPressed();
+    }
+
+    private void setUser(User user) {
+        mUser = user;
+        initUserData();
     }
 }
