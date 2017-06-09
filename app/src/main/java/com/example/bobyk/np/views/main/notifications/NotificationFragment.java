@@ -3,6 +3,8 @@ package com.example.bobyk.np.views.main.notifications;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,8 +14,10 @@ import com.example.bobyk.np.adapters.NotificationsAdapter;
 import com.example.bobyk.np.models.main.Notification;
 import com.example.bobyk.np.presenters.main.notifications.NotificationPresenter;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.Bind;
 import butterknife.ButterKnife;
 
 /**
@@ -22,9 +26,12 @@ import butterknife.ButterKnife;
 
 public class NotificationFragment extends Fragment implements NotificationView {
 
+    @Bind(R.id.rv_notifications)
+    RecyclerView mNotificationsRecyclerView;
+
     private NotificationPresenter mPresenter;
     private NotificationsAdapter mAdapter;
-    private List<Notification> mNotifications;
+    private List<Notification> mNotifications = new ArrayList<>();
 
     public static NotificationFragment newInstance() {
         Bundle args = new Bundle();
@@ -53,9 +60,20 @@ public class NotificationFragment extends Fragment implements NotificationView {
 
     private void init() {
         mPresenter.loadNotifications();
+        LinearLayoutManager manager = new LinearLayoutManager(getActivity());
+        mNotificationsRecyclerView.setLayoutManager(manager);
+        mNotificationsRecyclerView.setAdapter(mAdapter);
+
     }
 
     public boolean onBackPressed() {
         return false;
+    }
+
+    @Override
+    public void setNotificationList(List<Notification> notifications) {
+        mNotifications.clear();
+        mNotifications.addAll(notifications);
+        mAdapter.notifyDataSetChanged();
     }
 }

@@ -10,6 +10,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -37,8 +38,12 @@ public class NotificationPresenter implements INotificationPresenter {
         mDatabase.child("notifications").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-//                List<Notification> notifications = dataSnapshot.getValue();
-
+                List<Notification> notifications = new ArrayList<Notification>();
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
+                    Notification notification = childSnapshot.getValue(Notification.class);
+                    notifications.add(notification);
+                }
+                mView.setNotificationList(notifications);
             }
 
             @Override

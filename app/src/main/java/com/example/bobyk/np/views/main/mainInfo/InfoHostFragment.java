@@ -14,6 +14,7 @@ import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.views.main.mainInfo.info.InfoScreenFragment;
 import com.example.bobyk.np.views.main.profile.profilePage.ProfilePageFragment;
 
+import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import butterknife.ButterKnife;
@@ -36,6 +37,7 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
     }
 
     @Nullable
@@ -86,5 +88,11 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 }

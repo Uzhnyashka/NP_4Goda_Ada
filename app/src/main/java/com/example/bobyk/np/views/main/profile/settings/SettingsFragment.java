@@ -1,5 +1,6 @@
 package com.example.bobyk.np.views.main.profile.settings;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -10,6 +11,9 @@ import android.widget.TextView;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.views.authorization.AuthActivity;
+import com.example.bobyk.np.views.main.MainActivity;
+import com.google.firebase.auth.FirebaseAuth;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -78,5 +82,12 @@ public class SettingsFragment extends Fragment implements SettingsView {
     private void setUser(User user) {
         mUser = user;
         initUserData();
+    }
+
+    @OnClick(R.id.btn_logout)
+    public void onLogoutClick() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getContext().getApplicationContext(), AuthActivity.class));
+        getActivity().finish();
     }
 }

@@ -5,4 +5,5 @@ package com.example.bobyk.np.views.main.mainInfo.tracking;
  */
 
 public interface TrackingView {
+    void setDeliveryPoint(Double latitude, Double longitude);
 }

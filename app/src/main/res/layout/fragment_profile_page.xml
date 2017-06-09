@@ -2,7 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -10,7 +11,9 @@
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         app:layout_behavior="com.example.bobyk.vlogmi.utils.FlingBehavior"
-        app:layout_scrollFlags="scroll|enterAlways">
+        app:layout_scrollFlags="scroll|enterAlways"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true">
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsingToolBarLayout"
@@ -50,7 +53,7 @@
                         android:layout_centerVertical="true"
                         android:textColor="@color/colorWhite"
                         android:gravity="center"
-                        android:textSize="22sp"
+                        android:textSize="20sp"
                         android:text="NP"
                         />
 
@@ -182,7 +185,6 @@
                     android:layout_height="100dp"
                     android:layout_marginTop="@dimen/_140sdp"
                     android:id="@+id/iv_profile_image"
-                    android:src="@drawable/box"
                     android:layout_centerHorizontal="true"
                     app:civ_border_width="2dp"
                     app:civ_border_color="@color/colorWhite"/>

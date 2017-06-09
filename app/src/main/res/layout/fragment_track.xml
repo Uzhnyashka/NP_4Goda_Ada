@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/app_bg_color">
+
+    <!--<fragment xmlns:android="http://schemas.android.com/apk/res/android"-->
+        <!--xmlns:tools="http://schemas.android.com/tools"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:id="@+id/map"-->
+        <!--tools:context=".views.main.MainActivityActivity"-->
+        <!--android:name="com.google.android.gms.maps.SupportMapFragment" />-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:id="@+id/rl_toolbar"
+        android:background="@color/colorLoginButton">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_back"
+            android:src="@drawable/arrow_back"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:padding="8dp"
+            android:layout_alignParentStart="true"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:id="@+id/tv_toolbar_text"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="Tracking"
+            />
+
+    </RelativeLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_delivery_number_label"
+        android:gravity="center"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/rl_toolbar"
+        android:layout_margin="@dimen/_16sdp"
+        android:textColor="@color/colorWhite"
+        android:text="Please, enter delivery number"
+        />
+
+    <EditText
+        android:layout_width="@dimen/_170sdp"
+        android:layout_height="wrap_content"
+        android:id="@+id/et_delivery_number"
+        android:layout_marginStart="@dimen/_30sdp"
+        android:gravity="center"
+        android:layout_below="@+id/tv_delivery_number_label"
+        android:layout_centerHorizontal="true"
+        android:textColor="@color/colorLoginButton"
+        android:layout_alignParentStart="true"
+        />
+
+    <Button
+        android:layout_width="@dimen/_60sdp"
+        android:layout_height="@dimen/_35sdp"
+        android:id="@+id/btn_find"
+        android:textAllCaps="false"
+        android:text="Find"
+        android:background="@drawable/button_sign_in"
+        android:textColor="@android:color/black"
+        android:layout_marginBottom="@dimen/_6sdp"
+        android:layout_below="@+id/tv_delivery_number_label"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginEnd="@dimen/_30sdp"
+        />
+
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/mapView"
+        android:layout_below="@+id/btn_find"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="@dimen/_3sdp"/>
+
+</RelativeLayout>

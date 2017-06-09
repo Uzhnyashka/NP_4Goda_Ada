@@ -1,7 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/colorWhite"
+    android:layout_marginTop="@dimen/_4sdp"
+    android:layout_marginBottom="@dimen/_4sdp"
+    android:layout_marginStart="@dimen/_4sdp"
+    android:layout_marginEnd="@dimen/_4sdp"
+    >
 
     <TextView
         android:layout_width="wrap_content"
@@ -13,7 +19,7 @@
         android:layout_marginTop="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:text="Notification"
-        android:textColor="@android:color/black"
+        android:textColor="@color/colorLoginButton"
         android:textSize="18sp"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
@@ -40,6 +46,8 @@
         android:layout_below="@+id/tv_label"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_16sdp"
+        android:textColor="@color/app_hint_text_color"
         />
 
 
