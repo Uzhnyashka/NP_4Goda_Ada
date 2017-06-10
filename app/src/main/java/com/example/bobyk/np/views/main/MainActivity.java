@@ -103,17 +103,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 trackDriver();
                 initFragment();
                 if (mBottomBar != null) {
-                    switch (mRole) {
-                        case "Administrator":
-                            initAdminsitratorBottomBar();
-                            break;
-                        case "Driver":
-                            initDriverBottomBar();
-                            break;
-                        case "User":
-                            initUserBottomBar();
-                            break;
-                    }
+                    initDriverBottomBar();
                 }
             } else {
                 System.out.println("checkPerm");
@@ -124,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             if (mBottomBar != null) {
                 switch (mRole) {
                     case "Administrator":
-                        initAdminsitratorBottomBar();
+                        initAdministratorBottomBar();
                         break;
                     case "Driver":
                         initDriverBottomBar();
@@ -212,13 +202,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 }
             }
         }
-        if (ok) init();
-        else checkPermission();
+        if (mRole.equals("Driver")) {
+            if (ok) init();
+            else checkPermission();
+        }
     }
 
-    private void initAdminsitratorBottomBar() {
+    private void initAdministratorBottomBar() {
         currentPage = 2;
-        mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_notification), false);
+        mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_users), false);
         mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_info), true);
         mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_profile), false);
         mBottomBar.addOnTabSelectedListener(this);

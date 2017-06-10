@@ -15,6 +15,7 @@ import com.example.bobyk.np.presenters.main.mainInfo.info.InfoScreenPresenter;
 import com.example.bobyk.np.views.main.mainInfo.addAdmin.AddAdminFragment;
 import com.example.bobyk.np.views.main.mainInfo.addDelivery.AddDeliveryFragment;
 import com.example.bobyk.np.views.main.mainInfo.addDriver.AddDriverFragment;
+import com.example.bobyk.np.views.main.mainInfo.deliveries.DeliveriesFragment;
 import com.example.bobyk.np.views.main.mainInfo.tracking.TrackingFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -41,6 +42,12 @@ public class InfoScreenFragment extends Fragment implements InfoScreenView {
     ImageView mDriverImageView;
     @Bind(R.id.iv_delivery)
     ImageView mDeliveryImageView;
+    @Bind(R.id.iv_deliveries)
+    ImageView mDeliveriesImageView;
+    @Bind(R.id.iv_track)
+    ImageView mTrackImageView;
+    @Bind(R.id.iv_calculate)
+    ImageView mCalculateImageView;
 
     private InfoScreenPresenter mPresenter;
     private DisplayImageOptions mOptions;
@@ -103,6 +110,9 @@ public class InfoScreenFragment extends Fragment implements InfoScreenView {
         mImageLoader.displayImage("drawable://" + R.drawable.admin_icon, mAdminImageView, mOptions);
         mImageLoader.displayImage("drawable://" + R.drawable.driver_icon, mDriverImageView, mOptions);
         mImageLoader.displayImage("drawable://" + R.drawable.delivery_ic, mDeliveryImageView, mOptions);
+        mImageLoader.displayImage("drawable://" + R.drawable.del, mDeliveriesImageView, mOptions);
+        mImageLoader.displayImage("drawable://" + R.drawable.ic_track, mTrackImageView, mOptions);
+        mImageLoader.displayImage("drawable://" + R.drawable.calculator, mCalculateImageView, mOptions);
     }
 
     @OnClick(R.id.rl_track)
@@ -123,5 +133,10 @@ public class InfoScreenFragment extends Fragment implements InfoScreenView {
     @OnClick(R.id.rl_add_delivery)
     public void onAddDeliveryClick() {
         EventBus.getDefault().post(new EventMainChangeFragment(AddDeliveryFragment.newInstance(), true, 2));
+    }
+
+    @OnClick(R.id.rl_my_deliveries)
+    public void onDeliveriesClick() {
+        EventBus.getDefault().post(new EventMainChangeFragment(DeliveriesFragment.newInstance(), true, 2));
     }
 }

@@ -88,4 +88,9 @@ public class AddDeliveryFragment extends Fragment implements AddDeliveryView{
                 mRecipientDataEditText.getText().toString());
     }
 
+    @OnClick(R.id.btn_back)
+    public void onBackClick() {
+        getActivity().onBackPressed();
+    }
+
 }
