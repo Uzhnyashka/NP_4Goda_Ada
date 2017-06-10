@@ -124,7 +124,27 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:id="@+id/rl_add_delivery"
             android:layout_weight="1">
+
+            <ImageView
+                android:layout_width="@dimen/_50sdp"
+                android:layout_height="@dimen/_50sdp"
+                android:id="@+id/iv_delivery"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/iv_delivery"
+                android:layout_centerHorizontal="true"
+                android:text="Add delivery"
+                android:layout_margin="@dimen/_4sdp"
+                android:textSize="18sp"
+                android:textColor="@android:color/black"
+                />
 
         </RelativeLayout>
 
@@ -153,7 +173,6 @@
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:id="@+id/iv_driver"
-                android:src="@drawable/driver_icon"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 />
@@ -189,7 +208,6 @@
                 android:layout_width="@dimen/_50sdp"
                 android:layout_height="@dimen/_50sdp"
                 android:id="@+id/iv_admin"
-                android:src="@drawable/admin_icon"
                 android:layout_centerHorizontal="true"
                 android:layout_centerVertical="true"
                 />

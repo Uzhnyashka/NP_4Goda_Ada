@@ -13,6 +13,7 @@ import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.presenters.main.mainInfo.info.InfoScreenPresenter;
 import com.example.bobyk.np.views.main.mainInfo.addAdmin.AddAdminFragment;
+import com.example.bobyk.np.views.main.mainInfo.addDelivery.AddDeliveryFragment;
 import com.example.bobyk.np.views.main.mainInfo.addDriver.AddDriverFragment;
 import com.example.bobyk.np.views.main.mainInfo.tracking.TrackingFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -38,6 +39,8 @@ public class InfoScreenFragment extends Fragment implements InfoScreenView {
     ImageView mAdminImageView;
     @Bind(R.id.iv_driver)
     ImageView mDriverImageView;
+    @Bind(R.id.iv_delivery)
+    ImageView mDeliveryImageView;
 
     private InfoScreenPresenter mPresenter;
     private DisplayImageOptions mOptions;
@@ -99,6 +102,7 @@ public class InfoScreenFragment extends Fragment implements InfoScreenView {
     private void init() {
         mImageLoader.displayImage("drawable://" + R.drawable.admin_icon, mAdminImageView, mOptions);
         mImageLoader.displayImage("drawable://" + R.drawable.driver_icon, mDriverImageView, mOptions);
+        mImageLoader.displayImage("drawable://" + R.drawable.delivery_ic, mDeliveryImageView, mOptions);
     }
 
     @OnClick(R.id.rl_track)
@@ -114,5 +118,10 @@ public class InfoScreenFragment extends Fragment implements InfoScreenView {
     @OnClick(R.id.rl_admin)
     public void onAdminClick() {
         EventBus.getDefault().post(new EventMainChangeFragment(AddAdminFragment.newInstance(), true, 2));
+    }
+
+    @OnClick(R.id.rl_add_delivery)
+    public void onAddDeliveryClick() {
+        EventBus.getDefault().post(new EventMainChangeFragment(AddDeliveryFragment.newInstance(), true, 2));
     }
 }

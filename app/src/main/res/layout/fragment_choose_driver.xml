@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:id="@+id/rl_toolbar"
+        android:background="@color/colorLoginButton">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_back"
+            android:src="@drawable/arrow_back"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_4sdp"
+            android:padding="8dp"
+            android:layout_alignParentStart="true"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="38dp"
+            android:id="@+id/tv_toolbar_text"
+            android:layout_centerVertical="true"
+            android:textColor="@color/colorWhite"
+            android:gravity="center"
+            android:textSize="20sp"
+            android:text="Choose driver"
+            />
+
+    </RelativeLayout>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rv_drivers"
+        android:layout_below="@+id/rl_toolbar"
+        android:layout_above="@+id/btn_add_delivery"
+        />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:id="@+id/btn_add_delivery"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentBottom="true"
+        android:layout_marginTop="@dimen/_16sdp"
+        android:layout_marginBottom="@dimen/_22sdp"
+        android:layout_marginStart="@dimen/_48sdp"
+        android:layout_marginEnd="@dimen/_48sdp"
+        android:textAllCaps="false"
+        android:text="Add delivery"
+        android:background="@drawable/button_sign_in"
+        android:textColor="@android:color/black"
+        />
+
+</RelativeLayout>

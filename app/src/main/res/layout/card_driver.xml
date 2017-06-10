@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/colorWhite"
+    android:layout_margin="@dimen/_4sdp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_driver_label"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:text="Driver"
+        android:textColor="@color/colorLoginButton"
+        android:textStyle="bold"
+        android:textSize="18sp"
+        />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="@dimen/_45sdp"
+        android:layout_height="@dimen/_45sdp"
+        android:layout_below="@+id/tv_driver_label"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:id="@+id/iv_driver"
+        app:civ_border_width="2dp"
+        app:civ_border_color="@color/colorLoginButton"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_full_name"
+        android:text="Vasd dasdsa asdasdas"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        android:layout_toEndOf="@+id/iv_driver"
+        android:layout_below="@+id/tv_driver_label"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_4sdp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tv_email"
+        android:text="balsad@mail.qw"
+        android:textColor="@color/app_hint_text_color"
+        android:textSize="16sp"
+        android:layout_toEndOf="@+id/iv_driver"
+        android:layout_below="@+id/tv_full_name"
+        android:layout_marginTop="@dimen/_4sdp"
+        android:layout_marginStart="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        />
+
+</RelativeLayout>

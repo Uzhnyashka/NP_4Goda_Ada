@@ -12,28 +12,30 @@ public class Delivery {
     private String driverId;
     private String id;
     private String status;
-    private Long price;
-    private String senderId;
+    private Double price;
+    private String senderEmail;
     private String senderLocation;
-    private String recipientId;
+    private String recipientEmail;
     private String recipientLocation;
     private String sendDate;
     private String recipientDate;
-    private Long weight;
+    private String senderName;
+    private String recipientName;
+    private Double weight;
 
     public Delivery() {
 
     }
 
-    public Delivery(String id, String status, String driverId, String senderId, String senderLocation,
-                    String recipientId, String recipientLocation, Long price, Long weight,
+    public Delivery(String id, String status, String driverId, String senderEmail, String senderLocation,
+                    String recipientEmail, String recipientLocation, Double price, Double weight,
                     String sendDate, String recipientDate) {
         this.id = id;
         this.status = status;
         this.driverId = driverId;
-        this.senderId = senderId;
+        this.senderEmail = senderEmail;
         this.senderLocation = senderLocation;
-        this.recipientId = recipientId;
+        this.recipientEmail = recipientEmail;
         this.recipientLocation = recipientLocation;
         this.price = price;
         this.weight = weight;
@@ -49,7 +51,7 @@ public class Delivery {
         return driverId;
     }
 
-    public Long getPrice() {
+    public Double getPrice() {
         return price;
     }
 
@@ -61,16 +63,8 @@ public class Delivery {
         return id;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Double price) {
         this.price = price;
-    }
-
-    public String getRecipientId() {
-        return recipientId;
-    }
-
-    public void setRecipientId(String recipientId) {
-        this.recipientId = recipientId;
     }
 
     public String getRecipientLocation() {
@@ -79,14 +73,6 @@ public class Delivery {
 
     public void setRecipientLocation(String recipientLocation) {
         this.recipientLocation = recipientLocation;
-    }
-
-    public String getSenderId() {
-        return senderId;
-    }
-
-    public void setSenderId(String senderId) {
-        this.senderId = senderId;
     }
 
     public String getSenderLocation() {
@@ -105,11 +91,11 @@ public class Delivery {
         this.status = status;
     }
 
-    public Long getWeight() {
+    public Double getWeight() {
         return weight;
     }
 
-    public void setWeight(Long weight) {
+    public void setWeight(Double weight) {
         this.weight = weight;
     }
 
@@ -127,5 +113,37 @@ public class Delivery {
 
     public void setSendDate(String sendDate) {
         this.sendDate = sendDate;
+    }
+
+    public void setRecipientEmail(String recipientEmail) {
+        this.recipientEmail = recipientEmail;
+    }
+
+    public void setSenderEmail(String senderEmail) {
+        this.senderEmail = senderEmail;
+    }
+
+    public String getRecipientEmail() {
+        return recipientEmail;
+    }
+
+    public String getSenderEmail() {
+        return senderEmail;
+    }
+
+    public void setRecipientName(String recipientName) {
+        this.recipientName = recipientName;
+    }
+
+    public String getRecipientName() {
+        return recipientName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getSenderName() {
+        return senderName;
     }
 }
