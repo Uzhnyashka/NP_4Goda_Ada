@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.models.authorization.BaseAuthModel;
 import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.views.authorization.AuthActivity;
 import com.example.bobyk.np.views.main.MainActivity;
@@ -36,9 +37,9 @@ public class SettingsFragment extends Fragment implements SettingsView {
     @Bind(R.id.tv_phone_number)
     TextView mPhoneNumberTextView;
 
-    private User mUser;
+    private BaseAuthModel mUser;
 
-    public static SettingsFragment newInstance(User user) {
+    public static SettingsFragment newInstance(BaseAuthModel user) {
         Bundle args = new Bundle();
         SettingsFragment fragment = new SettingsFragment();
         fragment.setArguments(args);
@@ -79,7 +80,7 @@ public class SettingsFragment extends Fragment implements SettingsView {
         getActivity().onBackPressed();
     }
 
-    private void setUser(User user) {
+    private void setUser(BaseAuthModel user) {
         mUser = user;
         initUserData();
     }

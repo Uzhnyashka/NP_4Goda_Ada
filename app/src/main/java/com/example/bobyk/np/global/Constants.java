@@ -15,4 +15,6 @@ public class Constants {
     public static final int REGISTRED                          = 1488;
     public static final String PARAM_TASK                      = "TASK";
     public static final String BROADCAST_ACTION                = "BROADCAST_ACTION";
+
+    public static final String ROLE                            = "ROLE";
 }

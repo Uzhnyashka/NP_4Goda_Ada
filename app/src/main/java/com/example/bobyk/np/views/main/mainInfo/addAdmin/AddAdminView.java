@@ -5,4 +5,6 @@ package com.example.bobyk.np.views.main.mainInfo.addAdmin;
  */
 
 public interface AddAdminView {
+    void onSuccessRegisterAdmin();
+    void onFailedRegisterAdmin(String message);
 }

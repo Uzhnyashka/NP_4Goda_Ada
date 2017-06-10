@@ -3,7 +3,42 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:background="@color/colorWhite">
+    android:background="@color/colorWhite"
+    android:id="@+id/root_layout">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rl_crop_content"
+        android:visibility="invisible"
+        >
+
+        <com.theartofdev.edmodo.cropper.CropImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/crop_image_view"
+            />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/btn_crop_image"
+            android:background="@android:color/transparent"
+            android:src="@drawable/ic_share"
+            android:padding="10dp"
+            android:layout_alignParentEnd="true"
+            android:layout_margin="4dp"
+            />
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/rl_profile_content"
+        >
+
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -196,5 +231,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    </RelativeLayout>
 
 </RelativeLayout>

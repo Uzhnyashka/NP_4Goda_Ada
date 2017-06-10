@@ -58,8 +58,8 @@ public class AdditionalDataPresenter implements IAdditionalDataPresenter {
 
     @Override
     public void signUp(String firstname, String surname, String middlename) {
-        User user = new User(mUser.getEmail(), firstname, surname, middlename,
-                "+380664171432", downloadUrl, "user");
+        User user = new User(firstname, surname, middlename,
+                mUser.getEmail(), "user", "+380664171432", downloadUrl);
 
         mDatabase.child("users").child(mUser.getUid()).setValue(user)
                 .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {

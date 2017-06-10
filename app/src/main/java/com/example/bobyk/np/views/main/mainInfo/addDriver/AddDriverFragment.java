@@ -9,7 +9,7 @@ import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.bobyk.np.R;
-import com.example.bobyk.np.models.main.Driver;
+import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.presenters.main.mainInfo.addDriver.AddDriverPresenter;
 import com.example.bobyk.np.utils.Utils;
 
@@ -34,7 +34,7 @@ public class AddDriverFragment extends Fragment implements AddDriverView {
     @Bind(R.id.et_password)
     EditText mPasswordEditText;
     @Bind(R.id.et_confirm_password)
-    EditText mCofinrmPasswordEditText;
+    EditText mConfirmPasswordEditText;
 
     private AddDriverPresenter mPresenter;
     private Driver mDriver;
@@ -64,7 +64,7 @@ public class AddDriverFragment extends Fragment implements AddDriverView {
 
     @OnClick(R.id.btn_register)
     public void onRegisterClick() {
-        if (mPasswordEditText.getText().toString().equals(mCofinrmPasswordEditText.getText().toString())) {
+        if (mPasswordEditText.getText().toString().equals(mConfirmPasswordEditText.getText().toString())) {
             initDriverData();
             mPresenter.registerDriver(mDriver, mPasswordEditText.getText().toString());
         } else {
@@ -89,7 +89,7 @@ public class AddDriverFragment extends Fragment implements AddDriverView {
                 mSurnameEditText.getText().toString(),
                 mMiddleNameEditText.getText().toString(),
                 mEmailEditText.getText().toString(),
-                0d, 0d
+                 "driver", "+322" , "", 0d, 0d
         );
     }
 

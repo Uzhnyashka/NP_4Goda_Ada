@@ -114,12 +114,15 @@ public class AdditionalDataFragment extends Fragment implements AdditionalDataVi
 
     @Override
     public void onSuccessSignUp() {
-        Intent intent = new Intent(Constants.BROADCAST_ACTION);
-        intent.putExtra(Constants.PARAM_TASK, Constants.REGISTRED);
-        getActivity().sendBroadcast(intent);
-        registred = true;
+//        Intent intent = new Intent(Constants.BROADCAST_ACTION);
+//        intent.putExtra(Constants.PARAM_TASK, Constants.REGISTRED);
+//        getActivity().sendBroadcast(intent);
+//        registred = true;
 
-        startActivity(new Intent(getContext().getApplicationContext(), MainActivity.class));
+        Intent intent = new Intent(getContext().getApplicationContext(), MainActivity.class);
+        intent.putExtra("role", "User");
+
+        startActivity(intent);
 
         getActivity().finish();
     }

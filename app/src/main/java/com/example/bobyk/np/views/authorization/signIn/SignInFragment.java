@@ -112,7 +112,9 @@ public class SignInFragment extends Fragment implements SignInView {
 
     @Override
     public void onSuccessSingIn() {
-        startActivity(new Intent(getContext().getApplicationContext(), MainActivity.class));
+        Intent intent = new Intent(getContext().getApplicationContext(), MainActivity.class);
+        intent.putExtra("role", mRole.toString());
+        startActivity(intent);
 
         getActivity().finish();
     }

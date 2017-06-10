@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.FrameLayout;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.global.Constants;
+import com.example.bobyk.np.utils.SPManager;
 import com.example.bobyk.np.views.main.mainInfo.InfoHostFragment;
 import com.example.bobyk.np.views.main.notifications.NotificationFragment;
 import com.example.bobyk.np.views.main.profile.ProfileHostFragment;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private NotificationFragment mNotificationFragment;
     private InfoHostFragment mInfoHostFragment;
     private ProfileHostFragment mProfileHostFragment;
+    private String mRole;
 
     private int currentPage = 2;
 
@@ -45,6 +48,11 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     }
 
     private void init() {
+        mRole = getIntent().getStringExtra("role");
+        System.out.println("EEE " + mRole);
+        if (mRole != null && !mRole.equals("")) {
+            SPManager.storeUserLoginData(getApplicationContext(), Constants.ROLE, mRole);
+        }
         initFragment();
         if (mBottomBar != null) {
             mBottomBar.addTab(mBottomBar.newTab().setIcon(R.drawable.selector_notification), false);

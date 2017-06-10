@@ -3,7 +3,7 @@ package com.example.bobyk.np.presenters.main.mainInfo.addDriver;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 
-import com.example.bobyk.np.models.main.Driver;
+import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.views.main.mainInfo.addDriver.AddDriverView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,7 +24,6 @@ public class AddDriverPresenter implements IAddDriverPresenter {
 
     private Activity mActivity;
     private AddDriverView mView;
-    private FirebaseAuth mAuth;
     private FirebaseAuth mAuthAdditional;
     private DatabaseReference mDatabase;
 
@@ -35,8 +34,6 @@ public class AddDriverPresenter implements IAddDriverPresenter {
     }
 
     private void init() {
-        mAuth = FirebaseAuth.getInstance();
-
         FirebaseOptions firebaseOptions = new FirebaseOptions.Builder()
                 .setDatabaseUrl("https://tracking-e7f58.firebaseio.com/")
                 .setApiKey("AIzaSyAReKuIx_QlI9glkNuS5-2qZDhqjK4Cing")

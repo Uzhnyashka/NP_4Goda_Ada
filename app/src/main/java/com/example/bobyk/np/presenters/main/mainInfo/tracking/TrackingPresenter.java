@@ -3,7 +3,7 @@ package com.example.bobyk.np.presenters.main.mainInfo.tracking;
 import android.app.Activity;
 
 import com.example.bobyk.np.models.main.Delivery;
-import com.example.bobyk.np.models.main.Driver;
+import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.main.mainInfo.tracking.TrackingView;
 import com.google.firebase.database.DataSnapshot;
