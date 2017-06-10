@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     android:background="@color/colorWhite"
-    >
+    android:layout_margin="@dimen/_4sdp">
 
     <TextView
         android:layout_width="wrap_content"
@@ -93,11 +93,11 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:layout_toEndOf="@+id/tv_send_date"
-        android:layout_toStartOf="@+id/tv_recipient_date"
+        android:layout_toEndOf="@+id/tv_sender_location"
+        android:layout_toStartOf="@+id/tv_recipient_location"
         android:layout_marginStart="@dimen/_6sdp"
         android:layout_marginEnd="@dimen/_6sdp"
-        android:layout_below="@+id/tv_send_date"
+        android:layout_below="@+id/tv_sender_location"
         android:background="@color/colorLoginButton"
         />
 

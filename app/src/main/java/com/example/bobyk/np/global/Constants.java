@@ -10,6 +10,7 @@ public class Constants {
     public static final String PARAM_USERNAME                  = "PARAM_USERNAME";
 
     public static final int READ_EXTERNAL_STORAGE_REQUEST      = 228;
+    public static final int ACCESS_COARSE_LOCATION_REQUEST     = 1337;
     public static final int UPLOAD_IMAGE_PROFILE               = 322;
 
     public static final int REGISTRED                          = 1488;

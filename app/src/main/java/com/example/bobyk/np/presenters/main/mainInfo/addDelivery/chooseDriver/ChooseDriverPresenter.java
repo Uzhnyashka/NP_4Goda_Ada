@@ -32,6 +32,8 @@ public class ChooseDriverPresenter implements IChooseDriverPresenter {
     private List<Driver> driverList = new ArrayList<>();
     private int deliveryCount;
     private Delivery mDelivery;
+    private Long count;
+    private boolean first;
 
     public ChooseDriverPresenter(Activity activity, ChooseDriverView view) {
         mActivity = activity;
@@ -65,24 +67,39 @@ public class ChooseDriverPresenter implements IChooseDriverPresenter {
 
     @Override
     public void addDelivery(final Delivery delivery, final String email) {
-
+        first = true;
         Calendar cal = Calendar.getInstance();
         int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
-        int month = cal.get(Calendar.MONTH);
+        int month = cal.get(Calendar.MONTH) + 1;
         int year = cal.get(Calendar.YEAR);
 
         mDelivery = delivery;
         mDelivery.setSendDate(dayOfMonth + "." + month + "." + year);
-        mDatabase.child("drivers").addValueEventListener(new ValueEventListener() {
+        mDelivery.setStatus("Sent");
+        mDatabase.child("deliveries").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot d: dataSnapshot.getChildren()) {
-                    Driver driver = d.getValue(Driver.class);
-                    if (driver.getEmail().equals(email)) {
-                        mDelivery.setDriverId(d.getKey());
-                        createDelivery();
-                        break;
-                    }
+                mDelivery.setId(String.valueOf(dataSnapshot.getChildrenCount() + 1));
+                if (first) {
+                    mDatabase.child("drivers").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            first = false;
+                            for (DataSnapshot d : dataSnapshot.getChildren()) {
+                                Driver driver = d.getValue(Driver.class);
+                                if (driver.getEmail().equals(email)) {
+                                    mDelivery.setDriverId(d.getKey());
+                                    createDelivery();
+                                    break;
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
                 }
             }
 
@@ -95,30 +112,16 @@ public class ChooseDriverPresenter implements IChooseDriverPresenter {
     }
 
     private void createDelivery() {
-        mDatabase.child("deliveryCount").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Long val = dataSnapshot.getValue(Long.class);
-                deliveryCount = val.intValue();
-
-                mDatabase.child("deliveries").child(String.valueOf(deliveryCount)).setValue(mDelivery)
-                        .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    mView.onSuccessAddDelivery();
-                                } else {
-                                    mView.onFailedAddDelivery(task.getException().getMessage());
-                                }
-                            }
-                        });
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
+         mDatabase.child("deliveries").child(String.valueOf(mDelivery.getId())).setValue(mDelivery)
+                 .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
+                     @Override
+                     public void onComplete(@NonNull Task<Void> task) {
+                         if (task.isSuccessful()) {
+                             mView.onSuccessAddDelivery();
+                         } else {
+                             mView.onFailedAddDelivery(task.getException().getMessage());
+                         }
+                     }
+                 });
     }
 }

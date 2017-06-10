@@ -1,10 +1,21 @@
 package com.example.bobyk.np.views.main;
 
+import android.Manifest;
+import android.annotation.TargetApi;
+import android.content.pm.PackageManager;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.FrameLayout;
@@ -16,6 +27,10 @@ import com.example.bobyk.np.views.main.driverDeliveries.DriverDeliveriesFragment
 import com.example.bobyk.np.views.main.mainInfo.InfoHostFragment;
 import com.example.bobyk.np.views.main.notifications.NotificationFragment;
 import com.example.bobyk.np.views.main.profile.ProfileHostFragment;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -38,6 +53,30 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private ProfileHostFragment mProfileHostFragment;
     private DriverDeliveriesFragment mDriverDeliveriesFragment;
     private String mRole;
+    private LocationManager mLocationManager;
+
+    LocationListener mLocationListener = new LocationListener() {
+        @Override
+        public void onLocationChanged(Location location) {
+            System.out.println("WWW " + location.getLatitude() + " " + location.getLongitude());
+            updateDriverLocation(location.getLatitude(), location.getLongitude());
+        }
+
+        @Override
+        public void onStatusChanged(String provider, int status, Bundle extras) {
+            System.out.println("WWW onStatusChanged" );
+        }
+
+        @Override
+        public void onProviderEnabled(String provider) {
+            System.out.println("WWW onProviderEnabled");
+        }
+
+        @Override
+        public void onProviderDisabled(String provider) {
+            System.out.println("WWW onProviderDisabled");
+        }
+    };
 
     private int currentPage;
 
@@ -51,27 +90,130 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 
     private void init() {
         mRole = getIntent().getStringExtra("role");
-        System.out.println("EEE " + mRole);
         if (mRole != null && !mRole.equals("")) {
             SPManager.storeUserLoginData(getApplicationContext(), Constants.ROLE, mRole);
         } else {
             mRole = SPManager.loadUserLoginData(getApplicationContext(), Constants.ROLE);
         }
-        initFragment();
-        if (mBottomBar != null) {
-            System.out.println("EEE " + mRole);
-            switch (mRole) {
-                case "Administrator":
-                    initAdminsitratorBottomBar();
-                    break;
-                case "Driver":
-                    initDriverBottomBar();
-                    break;
-                case "User":
-                    initUserBottomBar();
-                    break;
+
+
+        if (mRole.equals("Driver")) {
+            System.out.println("checkLockPerm");
+            if (checkLocationPermission()) {
+                trackDriver();
+                initFragment();
+                if (mBottomBar != null) {
+                    switch (mRole) {
+                        case "Administrator":
+                            initAdminsitratorBottomBar();
+                            break;
+                        case "Driver":
+                            initDriverBottomBar();
+                            break;
+                        case "User":
+                            initUserBottomBar();
+                            break;
+                    }
+                }
+            } else {
+                System.out.println("checkPerm");
+                checkPermission();
+            }
+        } else {
+            initFragment();
+            if (mBottomBar != null) {
+                switch (mRole) {
+                    case "Administrator":
+                        initAdminsitratorBottomBar();
+                        break;
+                    case "Driver":
+                        initDriverBottomBar();
+                        break;
+                    case "User":
+                        initUserBottomBar();
+                        break;
+                }
             }
         }
+    }
+
+    private boolean checkLocationPermission() {
+        int permissionCoarseCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_COARSE_LOCATION);
+        int permissionFineCheck = ContextCompat.checkSelfPermission(this,
+                Manifest.permission.ACCESS_FINE_LOCATION);
+        return permissionCoarseCheck == PackageManager.PERMISSION_GRANTED && permissionFineCheck == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @TargetApi(Build.VERSION_CODES.M)
+    private void checkPermission() {
+        if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            }
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            }
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION,
+                            Manifest.permission.ACCESS_FINE_LOCATION },
+                    Constants.ACCESS_COARSE_LOCATION_REQUEST);
+            return;
+        }
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED) {
+
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.ACCESS_COARSE_LOCATION)) {
+            }
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_COARSE_LOCATION},
+                    Constants.ACCESS_COARSE_LOCATION_REQUEST);
+            return;
+        }
+
+        if (checkSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED &&
+                checkSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION)
+                        != PackageManager.PERMISSION_GRANTED) {
+
+            if (shouldShowRequestPermissionRationale(
+                    Manifest.permission.ACCESS_FINE_LOCATION)) {
+            }
+
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    Constants.ACCESS_COARSE_LOCATION_REQUEST);
+            return;
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        boolean ok = true;
+        for (int i = 0; i < permissions.length; i++) {
+            if (permissions[i].equals(Manifest.permission.ACCESS_COARSE_LOCATION)) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    ok = false;
+                    break;
+                }
+            }
+            if (permissions[i].equals(Manifest.permission.ACCESS_FINE_LOCATION)) {
+                if (grantResults[i] != PackageManager.PERMISSION_GRANTED) {
+                    ok = false;
+                    break;
+                }
+            }
+        }
+        if (ok) init();
+        else checkPermission();
     }
 
     private void initAdminsitratorBottomBar() {
@@ -323,5 +465,26 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                     break;
             }
         }
+    }
+
+    private void trackDriver() {
+        System.out.println("WWW track driver");
+        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000*1*60,
+                1000, mLocationListener);
+        mLocationManager.requestLocationUpdates(
+                LocationManager.NETWORK_PROVIDER, 1000*1*60, 1000,
+                mLocationListener);
+    }
+
+    private void updateDriverLocation(Double latitude, Double longitude) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+        database.child("drivers").child(user.getUid()).child("latitude").setValue(latitude);
+        database.child("drivers").child(user.getUid()).child("longitude").setValue(longitude);
     }
 }
