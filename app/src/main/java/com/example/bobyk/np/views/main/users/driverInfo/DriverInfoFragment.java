@@ -10,13 +10,19 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.models.authorization.Driver;
+import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.utils.Utils;
+import com.example.bobyk.np.views.main.map.ShowLocationOnMapFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -73,7 +79,11 @@ public class DriverInfoFragment extends Fragment {
 
     private void init() {
         if (mDriver != null) {
-            imageLoader.displayImage(mDriver.getPhotoUrl(), mDriverImageView, mOptions);
+            if (mDriver.getPhotoUrl() != null && !mDriver.getPhotoUrl().equals("")) {
+                imageLoader.displayImage(mDriver.getPhotoUrl(), mDriverImageView, mOptions);
+            } else {
+                imageLoader.displayImage("drawable://" + R.drawable.driver_icon, mDriverImageView, mOptions);
+            }
             mFirstNameTextView.setText(mDriver.getFirstName());
             mSurnameTextView.setText(mDriver.getSurname());
             mMiddleNameTextView.setText(mDriver.getMiddleName());
@@ -89,6 +99,16 @@ public class DriverInfoFragment extends Fragment {
     @OnClick(R.id.btn_back)
     public void onBackClick() {
         getActivity().onBackPressed();
+    }
+
+    @OnClick(R.id.btn_find_driver)
+    public void onFindDriverClick() {
+        if (mDriver.getLatitude().doubleValue() != 0 && mDriver.getLongitude().doubleValue() != 0) {
+            EventBus.getDefault().post(new EventMainChangeFragment(
+                    ShowLocationOnMapFragment.newInstance(mDriver.getLatitude(), mDriver.getLongitude()), true, 4));
+        } else {
+            Utils.showToastMessage(getActivity(), "Driver location data is empty");
+        }
     }
 
     private void configImageLoader() {

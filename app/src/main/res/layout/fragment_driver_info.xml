@@ -169,7 +169,7 @@
         <Button
             android:layout_width="@dimen/_150sdp"
             android:layout_height="@dimen/_35sdp"
-            android:id="@+id/btn_sign_in"
+            android:id="@+id/btn_find_driver"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginTop="@dimen/_48sdp"
