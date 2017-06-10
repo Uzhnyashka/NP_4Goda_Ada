@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.DriversAdapter;
+import com.example.bobyk.np.listeners.DriverSelectedListener;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.main.Delivery;
 import com.example.bobyk.np.presenters.main.mainInfo.addDelivery.chooseDriver.ChooseDriverPresenter;
@@ -36,6 +37,7 @@ public class ChooseDriverFragment extends Fragment implements ChooseDriverView {
     private DriversAdapter mAdapter;
     private List<Driver> mDrivers = new ArrayList<>();
     private ChooseDriverPresenter mPresenter;
+    private int mSelectedDriver = -1;
 
     public static ChooseDriverFragment newInstance(Delivery delivery) {
         Bundle args = new Bundle();
@@ -65,6 +67,12 @@ public class ChooseDriverFragment extends Fragment implements ChooseDriverView {
 
     private void init() {
         mPresenter.loadAllDrivers();
+        mAdapter.setDriverSelecterListener(new DriverSelectedListener() {
+            @Override
+            public void onSelected(int position) {
+                mSelectedDriver = position;
+            }
+        });
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mDriversRecyclerView.setLayoutManager(manager);
         mDriversRecyclerView.setAdapter(mAdapter);
@@ -91,8 +99,24 @@ public class ChooseDriverFragment extends Fragment implements ChooseDriverView {
         Utils.showToastMessage(getActivity(), "Error load drivers");
     }
 
+    @Override
+    public void onSuccessAddDelivery() {
+        Utils.showToastMessage(getActivity(), "Success add delivery");
+        getActivity().onBackPressed();
+        getActivity().onBackPressed();
+    }
+
+    @Override
+    public void onFailedAddDelivery(String message) {
+        Utils.showToastMessage(getActivity(), message);
+    }
+
     @OnClick(R.id.btn_add_delivery)
     public void onAddDeliveryClick() {
-
+        if (mSelectedDriver == -1) {
+            Utils.showToastMessage(getActivity(), "Please, select a driver");
+        } else {
+            mPresenter.addDelivery(mDelivery, mDrivers.get(mSelectedDriver).getEmail());
+        }
     }
 }

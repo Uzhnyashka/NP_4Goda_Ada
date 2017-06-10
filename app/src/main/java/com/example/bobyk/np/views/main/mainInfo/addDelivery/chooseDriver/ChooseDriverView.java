@@ -11,4 +11,6 @@ import java.util.List;
 public interface ChooseDriverView {
     void successLoadDriver(List<Driver> drivers);
     void error();
+    void onSuccessAddDelivery();
+    void onFailedAddDelivery(String message);
 }
