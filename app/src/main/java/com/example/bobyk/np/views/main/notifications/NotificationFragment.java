@@ -63,7 +63,6 @@ public class NotificationFragment extends Fragment implements NotificationView {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mNotificationsRecyclerView.setLayoutManager(manager);
         mNotificationsRecyclerView.setAdapter(mAdapter);
-
     }
 
     public boolean onBackPressed() {
