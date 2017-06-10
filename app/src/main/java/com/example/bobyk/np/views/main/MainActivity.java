@@ -8,7 +8,6 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -27,6 +26,7 @@ import com.example.bobyk.np.views.main.driverDeliveries.DriverDeliveriesFragment
 import com.example.bobyk.np.views.main.mainInfo.InfoHostFragment;
 import com.example.bobyk.np.views.main.notifications.NotificationFragment;
 import com.example.bobyk.np.views.main.profile.ProfileHostFragment;
+import com.example.bobyk.np.views.main.users.UsersHostFragment;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private InfoHostFragment mInfoHostFragment;
     private ProfileHostFragment mProfileHostFragment;
     private DriverDeliveriesFragment mDriverDeliveriesFragment;
+    private UsersHostFragment mUsersHostFragment;
     private String mRole;
     private LocationManager mLocationManager;
 
@@ -239,6 +240,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         mInfoHostFragment = InfoHostFragment.newInstance();
         mProfileHostFragment = ProfileHostFragment.newInstance();
         mDriverDeliveriesFragment = DriverDeliveriesFragment.newInstance();
+        mUsersHostFragment = UsersHostFragment.newInstance();
     }
 
     private void setActiveCurrentFragment() {
@@ -258,7 +260,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (mRole.equals("Administrator")) {
             switch (currentPage) {
                 case 1:
-                    setActiveFragment(mNotificationFragment, 1);
+                    setActiveFragment(mUsersHostFragment, 1);
                     break;
                 case 2:
                     setActiveFragment(mInfoHostFragment, 2);
@@ -301,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (mRole.equals("Administrator")) {
             switch (num) {
                 case 1:
-                    ft.replace(R.id.fl_main_container, fragment, "notifications");
+                    ft.replace(R.id.fl_main_container, fragment, "users");
                     break;
                 case 2:
                     ft.replace(R.id.fl_main_container, fragment, "mainInfoPage");
@@ -356,10 +358,10 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (mRole.equals("Administrator")) {
             switch (tab.getPosition()) {
                 case 0:
-                    if (mNotificationFragment == null) {
-                        mNotificationFragment = NotificationFragment.newInstance();
+                    if (mUsersHostFragment == null) {
+                        mUsersHostFragment = UsersHostFragment.newInstance();
                     }
-                    setActiveFragment(mNotificationFragment, 1);
+                    setActiveFragment(mUsersHostFragment, 1);
                     break;
                 case 1:
                     if (mInfoHostFragment == null) {
@@ -427,7 +429,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (mRole.equals("Administrator")) {
             switch (mBottomBar.getSelectedTabPosition()) {
                 case 0:
-                    if (!mNotificationFragment.onBackPressed()) {
+                    if (!mUsersHostFragment.onBackPressed()) {
                         this.finish();
                     }
                     break;

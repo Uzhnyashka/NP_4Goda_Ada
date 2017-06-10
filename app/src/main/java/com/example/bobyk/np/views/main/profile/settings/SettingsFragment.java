@@ -64,11 +64,13 @@ public class SettingsFragment extends Fragment implements SettingsView {
     }
 
     private void init() {
-        mFirstNameTextView.setText(mUser.getFirstName());
-        mSurnameTextView.setText(mUser.getSurname());
-        mMiddleNameTextView.setText(mUser.getMiddleName());
-        mEmailTextView.setText(mUser.getEmail());
-        mPhoneNumberTextView.setText(mUser.getPhoneNumber());
+        if (mUser != null) {
+            mFirstNameTextView.setText(mUser.getFirstName());
+            mSurnameTextView.setText(mUser.getSurname());
+            mMiddleNameTextView.setText(mUser.getMiddleName());
+            mEmailTextView.setText(mUser.getEmail());
+            mPhoneNumberTextView.setText(mUser.getPhoneNumber());
+        }
     }
 
     private void initUserData() {

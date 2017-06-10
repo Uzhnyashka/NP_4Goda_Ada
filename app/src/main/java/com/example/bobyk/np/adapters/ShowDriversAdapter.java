@@ -10,7 +10,7 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
-import com.example.bobyk.np.listeners.DriverSelectedListener;
+import com.example.bobyk.np.listeners.OnItemClickListener;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -28,7 +28,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by bobyk on 6/10/17.
  */
 
-public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHolder> {
+public class ShowDriversAdapter extends RecyclerView.Adapter<ShowDriversAdapter.ViewHolder> {
 
     private Context mContext;
     private List<Driver> mDriverList;
@@ -36,9 +36,9 @@ public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHold
     private ImageLoader imageLoader;
     private List<ViewHolder> mHoldersList = new ArrayList<>();
     private int selectedPosition = -1;
-    private DriverSelectedListener mDriverSelecterListener;
+    private OnItemClickListener mOnItemClickListener;
 
-    public DriversAdapter(Context context, List<Driver> drivers) {
+    public ShowDriversAdapter(Context context, List<Driver> drivers) {
         mContext = context;
         mDriverList = drivers;
         notifyDataSetChanged();
@@ -55,7 +55,7 @@ public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHold
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, final int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.bind(position);
         if (position == selectedPosition) {
             holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorLoginButton));
@@ -70,12 +70,7 @@ public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHold
         holder.mCardRelativeLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                for (ViewHolder holder : mHoldersList) {
-                    holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
-                }
-//                mDriverSelecterListener.onSelected(position);
-                selectedPosition = position;
-                holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorLoginButton));
+                mOnItemClickListener.onClick(position);
             }
         });
     }
@@ -140,7 +135,7 @@ public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHold
 
     }
 
-    public void setDriverSelecterListener(DriverSelectedListener listener) {
-        mDriverSelecterListener = listener;
+    public void setItemClickListener(OnItemClickListener listener) {
+        mOnItemClickListener = listener;
     }
 }
