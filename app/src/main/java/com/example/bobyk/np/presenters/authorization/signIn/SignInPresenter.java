@@ -5,11 +5,17 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.example.bobyk.np.models.authorization.BaseAuthModel;
 import com.example.bobyk.np.views.authorization.signIn.SignInView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 /**
  * Created by bobyk on 6/1/17.
@@ -20,6 +26,7 @@ public class SignInPresenter implements ISignInPresenter {
     private SignInView mView;
     private FirebaseAuth mAuth;
     private Activity mActivity;
+    private DatabaseReference mDatabase;
 
     public SignInPresenter(Activity activity, SignInView view) {
         mView = view;
@@ -29,6 +36,33 @@ public class SignInPresenter implements ISignInPresenter {
 
     private void init() {
         mAuth = FirebaseAuth.getInstance();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
+    }
+
+    @Override
+    public void checkRoleWithEmail(final String email, String role) {
+        mDatabase.child(getChildName(role)).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                boolean ok = false;
+                for (DataSnapshot d : dataSnapshot.getChildren()) {
+                    BaseAuthModel baseAuthModel = d.getValue(BaseAuthModel.class);
+                    if (baseAuthModel.getEmail().equals(email)) {
+                        ok = true;
+                    }
+                }
+                if (ok) {
+                    mView.roleConfirmed();
+                } else {
+                    mView.roleFailed();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                mView.roleFailed();
+            }
+        });
     }
 
     @Override
@@ -44,5 +78,17 @@ public class SignInPresenter implements ISignInPresenter {
                         }
                     }
                 });
+    }
+
+    private String getChildName(String role) {
+        switch (role) {
+            case "User":
+                return "users";
+            case "Administrator":
+                return "admins";
+            case "Driver":
+                return "drivers";
+        }
+        return "";
     }
 }

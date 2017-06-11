@@ -18,6 +18,7 @@ import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventAuthChangeFragment;
 import com.example.bobyk.np.presenters.authorization.signIn.SignInPresenter;
 import com.example.bobyk.np.utils.Role;
+import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.authorization.signUp.SignUpFragment;
 import com.example.bobyk.np.views.main.MainActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -112,6 +113,16 @@ public class SignInFragment extends Fragment implements SignInView {
 
     @Override
     public void onSuccessSingIn() {
+        mPresenter.checkRoleWithEmail(mEmailEditText.getText().toString(), mRole.toString());
+    }
+
+    @Override
+    public void onFailSignIn(String message) {
+        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void roleConfirmed() {
         Intent intent = new Intent(getContext().getApplicationContext(), MainActivity.class);
         intent.putExtra("role", mRole.toString());
         startActivity(intent);
@@ -120,7 +131,7 @@ public class SignInFragment extends Fragment implements SignInView {
     }
 
     @Override
-    public void onFailSignIn(String message) {
-        Toast.makeText(getActivity(), message, Toast.LENGTH_SHORT).show();
+    public void roleFailed() {
+        Utils.showToastMessage(getActivity(), "Account is not " + mRole.toString());
     }
 }

@@ -1,4 +1,4 @@
-package com.example.bobyk.np.views.main.users.driverInfo;
+package com.example.bobyk.np.views.main.users.userInfo;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
@@ -10,11 +10,8 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
-import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
-import com.example.bobyk.np.utils.Utils;
-import com.example.bobyk.np.views.main.map.ShowLocationOnMapFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -22,18 +19,16 @@ import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
-import org.greenrobot.eventbus.EventBus;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 /**
- * Created by bobyk on 6/10/17.
+ * Created by bobyk on 6/11/17.
  */
 
-public class DriverInfoFragment extends Fragment {
+public class UserInfoFragment extends Fragment {
 
     @Bind(R.id.tv_first_name)
     TextView mFirstNameTextView;
@@ -45,18 +40,18 @@ public class DriverInfoFragment extends Fragment {
     TextView mEmailTextView;
     @Bind(R.id.tv_phone_number)
     TextView mPhoneNumberTextView;
-    @Bind(R.id.iv_driver)
-    CircleImageView mDriverImageView;
+    @Bind(R.id.iv_user)
+    CircleImageView mUserImageView;
 
-    private Driver mDriver;
     private DisplayImageOptions mOptions;
     private ImageLoader imageLoader;
+    private User mUser;
 
-    public static DriverInfoFragment newInstance(Driver driver) {
+    public static UserInfoFragment newInstance(User user) {
         Bundle args = new Bundle();
-        DriverInfoFragment fragment = new DriverInfoFragment();
+        UserInfoFragment fragment = new UserInfoFragment();
         fragment.setArguments(args);
-        fragment.setDriver(driver);
+        fragment.setUser(user);
         return fragment;
     }
 
@@ -70,7 +65,7 @@ public class DriverInfoFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_driver_info, null);
+        View view = inflater.inflate(R.layout.fragment_user_info, null);
 
         ButterKnife.bind(this, view);
         init();
@@ -79,37 +74,27 @@ public class DriverInfoFragment extends Fragment {
     }
 
     private void init() {
-        if (mDriver != null) {
-            if (mDriver.getPhotoUrl() != null && !mDriver.getPhotoUrl().equals("")) {
-                imageLoader.displayImage(mDriver.getPhotoUrl(), mDriverImageView, mOptions);
+        if (mUser != null) {
+            if (mUser.getPhotoUrl() != null && !mUser.getPhotoUrl().equals("")) {
+                imageLoader.displayImage(mUser.getPhotoUrl(), mUserImageView, mOptions);
             } else {
-                imageLoader.displayImage("drawable://" + R.drawable.driver_icon, mDriverImageView, mOptions);
+                imageLoader.displayImage("drawable://" + R.drawable.user_icon, mUserImageView, mOptions);
             }
-            mFirstNameTextView.setText(mDriver.getFirstName());
-            mSurnameTextView.setText(mDriver.getSurname());
-            mMiddleNameTextView.setText(mDriver.getMiddleName());
-            mEmailTextView.setText(mDriver.getEmail());
-            mPhoneNumberTextView.setText(mDriver.getPhoneNumber());
+            mFirstNameTextView.setText(mUser.getFirstName());
+            mSurnameTextView.setText(mUser.getSurname());
+            mMiddleNameTextView.setText(mUser.getMiddleName());
+            mEmailTextView.setText(mUser.getEmail());
+            mPhoneNumberTextView.setText(mUser.getPhoneNumber());
         }
     }
 
-    private void setDriver(Driver driver) {
-        mDriver = driver;
+    private void setUser(User user) {
+        mUser = user;
     }
 
     @OnClick(R.id.btn_back)
-    public void onBackClick() {
+    public void onBackCLick() {
         getActivity().onBackPressed();
-    }
-
-    @OnClick(R.id.btn_find_driver)
-    public void onFindDriverClick() {
-        if (mDriver.getLatitude().doubleValue() != 0 && mDriver.getLongitude().doubleValue() != 0) {
-            EventBus.getDefault().post(new EventMainChangeFragment(
-                    ShowLocationOnMapFragment.newInstance(mDriver.getLatitude(), mDriver.getLongitude()), true, 4));
-        } else {
-            Utils.showToastMessage(getActivity(), "Driver location data is empty");
-        }
     }
 
     private void configImageLoader() {

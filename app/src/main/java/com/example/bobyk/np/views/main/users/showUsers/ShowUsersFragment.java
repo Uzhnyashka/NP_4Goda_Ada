@@ -11,10 +11,14 @@ import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.UsersAdapter;
+import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.listeners.OnItemClickListener;
 import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.presenters.main.users.showUsers.ShowUsersPresenter;
 import com.example.bobyk.np.utils.Utils;
+import com.example.bobyk.np.views.main.users.userInfo.UserInfoFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +73,7 @@ public class ShowUsersFragment extends Fragment implements ShowUsersView {
         mAdapter.setItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
-
+                EventBus.getDefault().post(new EventMainChangeFragment(UserInfoFragment.newInstance(mUserList.get(position)), true, 4));
             }
         });
     }

@@ -11,10 +11,15 @@ import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.ShowDriversAdapter;
+import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.listeners.OnItemClickListener;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.presenters.main.users.showDrivers.ShowDriversPresenter;
 import com.example.bobyk.np.utils.Utils;
+import com.example.bobyk.np.views.main.users.driverInfo.DriverInfoFragment;
+import com.google.gson.annotations.Expose;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -69,7 +74,7 @@ public class ShowDriversFragment extends Fragment implements ShowDriversView {
         mAdapter.setItemClickListener(new OnItemClickListener() {
             @Override
             public void onClick(int position) {
-
+                EventBus.getDefault().post(new EventMainChangeFragment(DriverInfoFragment.newInstance(mDriverList.get(position)), true, 4));
             }
         });
     }

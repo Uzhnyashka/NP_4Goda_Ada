@@ -7,4 +7,6 @@ package com.example.bobyk.np.views.authorization.signIn;
 public interface SignInView {
     void onSuccessSingIn();
     void onFailSignIn(String message);
+    void roleConfirmed();
+    void roleFailed();
 }
