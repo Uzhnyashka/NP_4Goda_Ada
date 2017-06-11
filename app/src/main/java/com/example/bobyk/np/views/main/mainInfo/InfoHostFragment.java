@@ -4,15 +4,16 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventMainChangeFragment;
-import com.example.bobyk.np.views.main.mainInfo.info.InfoScreenFragment;
-import com.example.bobyk.np.views.main.profile.profilePage.ProfilePageFragment;
+import com.example.bobyk.np.global.Constants;
+import com.example.bobyk.np.utils.SPManager;
+import com.example.bobyk.np.views.main.mainInfo.infoAdmin.InfoAdminScreenFragment;
+import com.example.bobyk.np.views.main.mainInfo.infoUser.InfoUserScreenFragment;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -25,12 +26,15 @@ import butterknife.ButterKnife;
 
 public class InfoHostFragment extends Fragment implements InfoHostView {
 
-    private InfoScreenFragment mInfoScreenFragment;
+    private InfoAdminScreenFragment mInfoAdminScreenFragment;
+    private InfoUserScreenFragment mInfoUserScreenFragment;
+    private String mRole;
 
     public static InfoHostFragment newInstance() {
         Bundle args = new Bundle();
         InfoHostFragment fragment = new InfoHostFragment();
         fragment.setArguments(args);
+        fragment.setRole();
         return fragment;
     }
 
@@ -53,14 +57,25 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        if (mInfoScreenFragment == null) {
-            mInfoScreenFragment = InfoScreenFragment.newInstance();
+        if (mRole.equals("Administrator")) {
+            if (mInfoAdminScreenFragment == null) {
+                mInfoAdminScreenFragment = InfoAdminScreenFragment.newInstance();
+            }
+        }
+        if (mRole.equals("User")) {
+            if (mInfoUserScreenFragment == null) {
+                mInfoUserScreenFragment = InfoUserScreenFragment.newInstance();
+            }
         }
         init();
     }
 
     private void init() {
-        changeFragment(mInfoScreenFragment, false);
+        if (mRole.equals("Administrator")) {
+            changeFragment(mInfoAdminScreenFragment, false);
+        } else {
+            changeFragment(mInfoUserScreenFragment, false);
+        }
     }
 
     @Subscribe
@@ -94,5 +109,9 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
     public void onDestroy() {
         super.onDestroy();
         EventBus.getDefault().unregister(this);
+    }
+
+    private void setRole() {
+        mRole = SPManager.loadUserLoginData(getContext(), Constants.ROLE);
     }
 }

@@ -11,9 +11,15 @@ import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.DeliveriesAdapter;
+import com.example.bobyk.np.event.EventMainChangeFragment;
+import com.example.bobyk.np.listeners.OnItemClickListener;
 import com.example.bobyk.np.models.main.Delivery;
 import com.example.bobyk.np.presenters.main.mainInfo.deliveries.DeliveriesPresenter;
+import com.example.bobyk.np.presenters.main.users.deliveryInfo.DeliveryInfoPresenter;
 import com.example.bobyk.np.utils.Utils;
+import com.example.bobyk.np.views.main.users.deliveryInfo.DeliveryInfoFragment;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -64,6 +70,12 @@ public class DeliveriesFragment extends Fragment implements DeliveriesView {
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mDeliveriesRecyclerView.setLayoutManager(manager);
         mDeliveriesRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new OnItemClickListener() {
+            @Override
+            public void onClick(int position) {
+                EventBus.getDefault().post(new EventMainChangeFragment(DeliveryInfoFragment.newInstance(mDeliveryList.get(position), 2), true, 2));
+            }
+        });
     }
 
     @Override
