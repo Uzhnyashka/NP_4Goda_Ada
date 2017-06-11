@@ -10,14 +10,18 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.views.main.users.userDeliveries.UserDeliveriesFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+
+import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -124,5 +128,10 @@ public class UserInfoFragment extends Fragment {
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
+    }
+
+    @OnClick(R.id.btn_active_deliveries)
+    public void onActiveDeliveriesClick() {
+        EventBus.getDefault().post(new EventMainChangeFragment(UserDeliveriesFragment.newInstance(mUser), true, 1));
     }
 }

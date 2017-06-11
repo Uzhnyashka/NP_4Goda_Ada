@@ -106,7 +106,7 @@ public class DriverInfoFragment extends Fragment {
     public void onFindDriverClick() {
         if (mDriver.getLatitude().doubleValue() != 0 && mDriver.getLongitude().doubleValue() != 0) {
             EventBus.getDefault().post(new EventMainChangeFragment(
-                    ShowLocationOnMapFragment.newInstance(mDriver.getLatitude(), mDriver.getLongitude()), true, 4));
+                    ShowLocationOnMapFragment.newInstance(mDriver.getLatitude(), mDriver.getLongitude(), "Driver"), true, 4));
         } else {
             Utils.showToastMessage(getActivity(), "Driver location data is empty");
         }

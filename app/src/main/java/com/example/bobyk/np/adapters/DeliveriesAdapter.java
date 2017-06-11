@@ -5,9 +5,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.listeners.OnItemClickListener;
 import com.example.bobyk.np.models.main.Delivery;
 
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.Vi
 
     private Context mContext;
     private List<Delivery> mDeliveryList = new ArrayList<>();
+    private OnItemClickListener mOnItemClickListener;
 
     public DeliveriesAdapter(Context context, List<Delivery> deliveries) {
         mContext = context;
@@ -36,7 +39,7 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.Vi
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, final int position) {
         Delivery delivery = mDeliveryList.get(position);
         holder.mDeliveryIdTextView.setText(delivery.getId());
         holder.mSendDateTextView.setText(delivery.getSendDate());
@@ -45,6 +48,12 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.Vi
         holder.mRecipientLocationTextView.setText(delivery.getRecipientLocation());
         holder.mStatusTextView.setText(delivery.getStatus());
         holder.mPriceTextView.setText(String.valueOf(delivery.getPrice()));
+        holder.mCardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mOnItemClickListener.onClick(position);
+            }
+        });
     }
 
     @Override
@@ -61,6 +70,7 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.Vi
         private TextView mRecipientLocationTextView;
         private TextView mStatusTextView;
         private TextView mPriceTextView;
+        private RelativeLayout mCardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -71,6 +81,11 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.Vi
             mRecipientLocationTextView = (TextView) itemView.findViewById(R.id.tv_recipient_location);
             mStatusTextView = (TextView) itemView.findViewById(R.id.tv_status);
             mPriceTextView = (TextView) itemView.findViewById(R.id.tv_price);
+            mCardView = (RelativeLayout) itemView.findViewById(R.id.card);
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener onItemClickListener) {
+        mOnItemClickListener = onItemClickListener;
     }
 }

@@ -41,4 +41,7 @@
     <color name="app_hint_text_color">#966f7581</color>
     <color name="colorLoginButton">#e4983f</color>
     <color name="color_bg_light_black">#32000000</color>
+    <color name="colorStatusSelected">#a0ed8f</color>
+    <color name="colorStatusUnselected">#bababa</color>
+
 </resources>

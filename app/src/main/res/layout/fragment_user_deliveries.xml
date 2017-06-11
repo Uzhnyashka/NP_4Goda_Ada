@@ -28,7 +28,7 @@
             android:textColor="@color/colorWhite"
             android:gravity="center"
             android:textSize="20sp"
-            android:text="My deliveries"
+            android:text="All user delivery"
             />
 
     </RelativeLayout>

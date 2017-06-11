@@ -35,15 +35,17 @@ public class ShowLocationOnMapFragment extends Fragment {
 
     private double mLatitude;
     private double mLongitude;
+    private String mLabel;
 
     private GoogleMap googleMap;
 
-    public static ShowLocationOnMapFragment newInstance(Double latitude, Double longitude) {
+    public static ShowLocationOnMapFragment newInstance(Double latitude, Double longitude, String label) {
         Bundle args = new Bundle();
         ShowLocationOnMapFragment fragment = new ShowLocationOnMapFragment();
         fragment.setArguments(args);
         fragment.setLatitude(latitude);
         fragment.setLongitude(longitude);
+        fragment.setLabel(label);
         return fragment;
     }
 
@@ -88,7 +90,7 @@ public class ShowLocationOnMapFragment extends Fragment {
 
                 googleMap.clear();
                 LatLng delivery = new LatLng(mLatitude, mLongitude);
-                googleMap.addMarker(new MarkerOptions().position(delivery).title("Driver"));
+                googleMap.addMarker(new MarkerOptions().position(delivery).title(mLabel));
 
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(delivery).zoom(12).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
@@ -125,6 +127,10 @@ public class ShowLocationOnMapFragment extends Fragment {
 
     private void setLongitude(Double longitude) {
         mLongitude = longitude.doubleValue();
+    }
+
+    private void setLabel(String label) {
+        mLabel = label;
     }
 
 }

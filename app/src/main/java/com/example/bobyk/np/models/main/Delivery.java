@@ -21,6 +21,8 @@ public class Delivery {
     private String recipientDate;
     private String senderName;
     private String recipientName;
+    private String senderId;
+    private String recipientId;
     private Double weight;
 
     public Delivery() {
@@ -29,7 +31,7 @@ public class Delivery {
 
     public Delivery(String id, String status, String driverId, String senderEmail, String senderLocation,
                     String recipientEmail, String recipientLocation, Double price, Double weight,
-                    String sendDate, String recipientDate) {
+                    String sendDate, String recipientDate, String senderId, String recipientId) {
         this.id = id;
         this.status = status;
         this.driverId = driverId;
@@ -41,6 +43,8 @@ public class Delivery {
         this.weight = weight;
         this.sendDate = sendDate;
         this.recipientDate = recipientDate;
+        this.senderId = senderId;
+        this.recipientId = recipientId;
     }
 
     public void setDriverId(String driverId) {
@@ -146,4 +150,22 @@ public class Delivery {
     public String getSenderName() {
         return senderName;
     }
+
+    public String getRecipientId() {
+        return recipientId;
+    }
+
+    public void setRecipientId(String recipientId) {
+        this.recipientId = recipientId;
+    }
+
+    public String getSenderId() {
+        return senderId;
+    }
+
+    public void setSenderId(String senderId) {
+        this.senderId = senderId;
+    }
 }
+
+

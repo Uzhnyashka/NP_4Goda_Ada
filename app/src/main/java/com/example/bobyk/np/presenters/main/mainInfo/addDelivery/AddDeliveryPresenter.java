@@ -27,6 +27,8 @@ public class AddDeliveryPresenter implements IAddDeliveryPresenter {
     private String senderName;
     private String recipientName;
     private Delivery mDelivery;
+    private String senderId;
+    private String recipientId;
 
     public AddDeliveryPresenter(Activity activity, AddDeliveryView view) {
         mActivity = activity;
@@ -82,6 +84,7 @@ public class AddDeliveryPresenter implements IAddDeliveryPresenter {
                         ok = true;
                         senderName = user.getSurname() + " " + user.getFirstName() + " " +
                                 user.getMiddleName();
+                        senderId = d.getKey();
                         break;
                     }
                 }
@@ -110,6 +113,7 @@ public class AddDeliveryPresenter implements IAddDeliveryPresenter {
                         ok = true;
                         recipientName = user.getSurname() + " " + user.getFirstName() + " " +
                                 user.getMiddleName();
+                        recipientId = d.getKey();
                         break;
                     }
                 }
@@ -130,6 +134,8 @@ public class AddDeliveryPresenter implements IAddDeliveryPresenter {
     private void sendUserData() {
         mDelivery.setRecipientName(recipientName);
         mDelivery.setSenderName(senderName);
+        mDelivery.setSenderId(senderId);
+        mDelivery.setRecipientId(recipientId);
         mView.onSuccessAddUserData(mDelivery);
     }
 }
