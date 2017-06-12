@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.support.annotation.NonNull;
 
 import com.example.bobyk.np.models.authorization.Driver;
+import com.example.bobyk.np.models.main.Point;
 import com.example.bobyk.np.views.main.mainInfo.addDriver.AddDriverView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -13,6 +14,9 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -72,8 +76,15 @@ public class AddDriverPresenter implements IAddDriverPresenter {
     }
 
     private void addDriverAditionalData(Driver driver) {
-        driver.setLatitude(0d);
-        driver.setLongitude(0d);
+//        driver.setLatitude(0d);
+//        driver.setLongitude(0d);
+        if (driver.getPoints() == null) {
+            List<Point> points = new ArrayList<>();
+            points.add(new Point(0d, 0d));
+            driver.setPoints(points);
+        } else {
+            driver.getPoints().add(new Point(0d, 0d));
+        }
         mDatabase.child("drivers").child(mAuthAdditional.getCurrentUser().getUid()).setValue(driver)
                 .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
                     @Override

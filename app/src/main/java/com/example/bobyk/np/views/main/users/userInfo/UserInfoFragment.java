@@ -132,6 +132,6 @@ public class UserInfoFragment extends Fragment {
 
     @OnClick(R.id.btn_active_deliveries)
     public void onActiveDeliveriesClick() {
-        EventBus.getDefault().post(new EventMainChangeFragment(UserDeliveriesFragment.newInstance(mUser), true, 1));
+        EventBus.getDefault().post(new EventMainChangeFragment(UserDeliveriesFragment.newInstance(mUser), true, 4));
     }
 }

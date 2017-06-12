@@ -5,7 +5,10 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
+import com.example.bobyk.np.models.authorization.Admin;
 import com.example.bobyk.np.models.authorization.BaseAuthModel;
+import com.example.bobyk.np.models.authorization.Driver;
+import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.views.authorization.signIn.SignInView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -50,6 +53,27 @@ public class SignInPresenter implements ISignInPresenter {
                     if (baseAuthModel.getEmail().equals(email)) {
                         ok = true;
                     }
+
+//                    if (mRole.equals("admins")) {
+//                        Admin admin = d.getValue(Admin.class);
+//                        if (admin.getEmail().equals(email)) {
+//                            ok = true;
+//                        }
+//                    }
+//                    if (mRole.equals("drivers")) {
+//                        Driver driver = d.getValue(Driver.class);
+//                        String email1 = driver.getEmail();
+//                        System.out.println("WWW " + email1);
+//                        if (driver.getEmail().equals(email)) {
+//                            ok = true;
+//                        }
+//                    }
+//                    if (mRole.equals("users")) {
+//                        User user = d.getValue(User.class);
+//                        if (user.getEmail().equals(email)) {
+//                            ok = true;
+//                        }
+//                    }
                 }
                 if (ok) {
                     mView.roleConfirmed();

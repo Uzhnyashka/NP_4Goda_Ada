@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/tv_drivers"
-            android:text="All users"
+            android:text="All drivers"
             android:layout_centerHorizontal="true"
             android:layout_below="@+id/iv_drivers"
             android:layout_margin="@dimen/_4sdp"

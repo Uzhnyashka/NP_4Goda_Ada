@@ -2,6 +2,7 @@ package com.example.bobyk.np.views.main;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
@@ -21,16 +22,28 @@ import android.widget.FrameLayout;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.global.Constants;
+import com.example.bobyk.np.models.authorization.Driver;
+import com.example.bobyk.np.models.main.Point;
+import com.example.bobyk.np.services.LoadLocationService;
 import com.example.bobyk.np.utils.SPManager;
 import com.example.bobyk.np.views.main.driverDeliveries.DriverDeliveriesFragment;
 import com.example.bobyk.np.views.main.mainInfo.InfoHostFragment;
 import com.example.bobyk.np.views.main.notifications.NotificationFragment;
 import com.example.bobyk.np.views.main.profile.ProfileHostFragment;
 import com.example.bobyk.np.views.main.users.UsersHostFragment;
+import com.google.android.gms.location.LocationServices;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -54,30 +67,29 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     private DriverDeliveriesFragment mDriverDeliveriesFragment;
     private UsersHostFragment mUsersHostFragment;
     private String mRole;
-    private LocationManager mLocationManager;
 
-    LocationListener mLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            System.out.println("WWW " + location.getLatitude() + " " + location.getLongitude());
-            updateDriverLocation(location.getLatitude(), location.getLongitude());
-        }
-
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            System.out.println("WWW onStatusChanged" );
-        }
-
-        @Override
-        public void onProviderEnabled(String provider) {
-            System.out.println("WWW onProviderEnabled");
-        }
-
-        @Override
-        public void onProviderDisabled(String provider) {
-            System.out.println("WWW onProviderDisabled");
-        }
-    };
+//    LocationListener mLocationListener = new LocationListener() {
+//        @Override
+//        public void onLocationChanged(Location location) {
+//            System.out.println("WWW " + location.getLatitude() + " " + location.getLongitude());
+//            updateDriverLocation(location.getLatitude(), location.getLongitude());
+//        }
+//
+//        @Override
+//        public void onStatusChanged(String provider, int status, Bundle extras) {
+//            System.out.println("WWW onStatusChanged");
+//        }
+//
+//        @Override
+//        public void onProviderEnabled(String provider) {
+//            System.out.println("WWW onProviderEnabled");
+//        }
+//
+//        @Override
+//        public void onProviderDisabled(String provider) {
+//            System.out.println("WWW onProviderDisabled");
+//        }
+//    };
 
     private int currentPage;
 
@@ -101,7 +113,8 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (mRole.equals("Driver")) {
             System.out.println("checkLockPerm");
             if (checkLocationPermission()) {
-                trackDriver();
+
+                startService(new Intent(this, LoadLocationService.class));
                 initFragment();
                 if (mBottomBar != null) {
                     initDriverBottomBar();
@@ -126,6 +139,21 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
                 }
             }
         }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+//        trackDriver();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+//        mLocationManager.removeUpdates(mLocationListener);
     }
 
     private boolean checkLocationPermission() {
@@ -460,25 +488,74 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             }
         }
     }
+//
+//    private void trackDriver() {
+//        System.out.println("WWW track driver");
+//        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+//
+//        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+//            return;
+//        }
+//        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000,
+//                1000, mLocationListener);
+//        mLocationManager.requestLocationUpdates(
+//                LocationManager.NETWORK_PROVIDER, 1000, 1000,
+//                mLocationListener);
+//    }
 
-    private void trackDriver() {
-        System.out.println("WWW track driver");
-        mLocationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            return;
-        }
-        mLocationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 1000*1*60,
-                1000, mLocationListener);
-        mLocationManager.requestLocationUpdates(
-                LocationManager.NETWORK_PROVIDER, 1000*1*60, 1000,
-                mLocationListener);
-    }
-
-    private void updateDriverLocation(Double latitude, Double longitude) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        DatabaseReference database = FirebaseDatabase.getInstance().getReference();
-        database.child("drivers").child(user.getUid()).child("latitude").setValue(latitude);
-        database.child("drivers").child(user.getUid()).child("longitude").setValue(longitude);
+    private void updateDriverLocation(final Double latitude, final Double longitude) {
+        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
+//        database.child("drivers").child(user.getUid()).runTransaction(new Transaction.Handler() {
+//            @Override
+//            public Transaction.Result doTransaction(MutableData mutableData) {
+//                Driver driver = mutableData.getValue(Driver.class);
+//                if (driver != null) {
+//                    System.out.println("WWW driver not null");
+//                    if (driver.getPoints() == null) {
+//                        List<Point> points = new ArrayList<>();
+//                        points.add(new Point(latitude, longitude));
+//                        driver.setPoints(points);
+//                    } else {
+//                        driver.getPoints().add(new Point(latitude, longitude));
+//                        database.child("drivers").child(user.getUid()).setValue(driver);
+//                    }
+//                } else {
+//                    return Transaction.success(mutableData);
+//                }
+//                mutableData.setValue(driver);
+//                return Transaction.success(mutableData);
+//            }
+//
+//            @Override
+//            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+//
+//            }
+//        });
+//        database.child("drivers").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                Driver driver = dataSnapshot.getValue(Driver.class);
+//                if (driver != null) {
+//                    System.out.println("WWW driver not null");
+//                    if (driver.getPoints() == null) {
+//                        List<Point> points = new ArrayList<>();
+//                        points.add(new Point(latitude, longitude));
+//                        driver.setPoints(points);
+//                    } else {
+//                        driver.getPoints().add(new Point(latitude, longitude));
+//
+//                        database.child("drivers").child(user.getUid()).setValue(driver);
+//                    }
+//                } else {
+//                    System.out.println("WWW driver null");
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//
+//            }
+//        });
     }
 }

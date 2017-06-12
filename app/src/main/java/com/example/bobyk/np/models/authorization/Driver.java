@@ -16,8 +16,8 @@ public class Driver extends BaseAuthModel{
 
     public Driver(String firstName, String surname, String middleName,
                   String email, String role, String phoneNumber,
-                  String photoUrl, Double latitude, Double longitude) {
-          super(firstName, surname, middleName, email, role, phoneNumber, photoUrl, latitude, longitude);
+                  String photoUrl) {
+          super(firstName, surname, middleName, email, role, phoneNumber, photoUrl);
     }
 
 

@@ -76,7 +76,7 @@ public class AuthActivity extends AppCompatActivity {
 
     private void init() {
         changeFragment(StartScreenFragment.newInstance(), false);
-        configBroadcastReceiver();
+       // configBroadcastReceiver();
     }
 
     private void configBroadcastReceiver() {

@@ -41,6 +41,7 @@ public class UsersAdapter extends RecyclerView.Adapter<UsersAdapter.ViewHolder> 
         mContext = context;
         mUserList = users;
         notifyDataSetChanged();
+        imageLoader = ImageLoader.getInstance();
         configImageLoader();
     }
 

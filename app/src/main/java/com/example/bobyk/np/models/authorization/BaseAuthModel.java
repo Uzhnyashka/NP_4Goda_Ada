@@ -1,6 +1,9 @@
 package com.example.bobyk.np.models.authorization;
 
+import com.example.bobyk.np.models.main.Point;
 import com.google.firebase.database.IgnoreExtraProperties;
+
+import java.util.List;
 
 /**
  * Created by bobyk on 6/10/17.
@@ -16,8 +19,9 @@ public class BaseAuthModel {
     private String role;
     private String phoneNumber;
     private String photoUrl;
-    private Double latitude;
-    private Double longitude;
+    private List<Point> points;
+    private Long signInTime;
+    private Long singOutTime;
 
     public BaseAuthModel() {
 
@@ -35,19 +39,19 @@ public class BaseAuthModel {
         this.photoUrl = photoUrl;
     }
 
-    public BaseAuthModel(String firstName, String surname, String middleName,
-                         String email, String role, String phoneNumber,
-                         String photoUrl, Double latitude, Double longitude) {
-        this.email = email;
-        this.firstName = firstName;
-        this.surname = surname;
-        this.middleName = middleName;
-        this.role = role;
-        this.phoneNumber = phoneNumber;
-        this.photoUrl = photoUrl;
-        this.latitude = latitude;
-        this.longitude = longitude;
-    }
+//    public BaseAuthModel(String firstName, String surname, String middleName,
+//                         String email, String role, String phoneNumber,
+//                         String photoUrl, Double latitude, Double longitude) {
+//        this.email = email;
+//        this.firstName = firstName;
+//        this.surname = surname;
+//        this.middleName = middleName;
+//        this.role = role;
+//        this.phoneNumber = phoneNumber;
+//        this.photoUrl = photoUrl;
+//        this.latitude = latitude;
+//        this.longitude = longitude;
+//    }
 
 
     public String getSurname() {
@@ -106,20 +110,27 @@ public class BaseAuthModel {
         this.photoUrl = photoUrl;
     }
 
-    public Double getLatitude() {
-        return latitude;
+    public void setSignInTime(Long signInTime) {
+        this.signInTime = signInTime;
     }
 
-    public void setLatitude(Double latitude) {
-        this.latitude = latitude;
+    public void setSingOutTime(Long singOutTime) {
+        this.singOutTime = singOutTime;
     }
 
-    public Double getLongitude() {
-        return longitude;
+    public Long getSignInTime() {
+        return signInTime;
     }
 
-    public void setLongitude(Double longitude) {
-        this.longitude = longitude;
+    public Long getSingOutTime() {
+        return singOutTime;
     }
 
+    public void setPoints(List<Point> points) {
+        this.points = points;
+    }
+
+    public List<Point> getPoints() {
+        return points;
+    }
 }

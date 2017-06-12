@@ -81,19 +81,19 @@ public class ShowLocationOnMapFragment extends Fragment {
             public void onMapReady(GoogleMap mMap) {
                 googleMap = mMap;
 
-                // For showing a move to my location button
-                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                    // TODO: Consider calling
-                    return;
-                }
-                googleMap.setMyLocationEnabled(true);
-
                 googleMap.clear();
                 LatLng delivery = new LatLng(mLatitude, mLongitude);
                 googleMap.addMarker(new MarkerOptions().position(delivery).title(mLabel));
 
                 CameraPosition cameraPosition = new CameraPosition.Builder().target(delivery).zoom(12).build();
                 googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
+
+                // For showing a move to my location button
+                if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+                    // TODO: Consider calling
+                    return;
+                }
+                googleMap.setMyLocationEnabled(true);
             }
         });
     }

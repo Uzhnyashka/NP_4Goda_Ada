@@ -73,7 +73,7 @@ public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHold
                 for (ViewHolder holder : mHoldersList) {
                     holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
                 }
-//                mDriverSelecterListener.onSelected(position);
+                mDriverSelecterListener.onSelected(position);
                 selectedPosition = position;
                 holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorLoginButton));
             }

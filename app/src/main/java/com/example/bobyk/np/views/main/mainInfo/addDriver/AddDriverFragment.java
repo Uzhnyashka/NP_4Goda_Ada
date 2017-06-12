@@ -89,7 +89,7 @@ public class AddDriverFragment extends Fragment implements AddDriverView {
                 mSurnameEditText.getText().toString(),
                 mMiddleNameEditText.getText().toString(),
                 mEmailEditText.getText().toString(),
-                 "driver", "+322" , "", 0d, 0d
+                 "driver", "+322" , ""
         );
     }
 

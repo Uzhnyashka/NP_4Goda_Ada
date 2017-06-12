@@ -2,7 +2,9 @@ package com.example.bobyk.np.presenters.main.mainInfo.deliveries;
 
 import android.app.Activity;
 
+import com.example.bobyk.np.global.Constants;
 import com.example.bobyk.np.models.main.Delivery;
+import com.example.bobyk.np.utils.SPManager;
 import com.example.bobyk.np.views.main.mainInfo.deliveries.DeliveriesView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -25,6 +27,7 @@ public class DeliveriesPresenter implements IDeliveriesPresenter {
     private DeliveriesView mView;
     private DatabaseReference mDatabase;
     private FirebaseUser mUser;
+    private String mRole;
 
     public DeliveriesPresenter(Activity activity, DeliveriesView view) {
         mActivity = activity;
@@ -35,6 +38,7 @@ public class DeliveriesPresenter implements IDeliveriesPresenter {
     private void init() {
         mDatabase = FirebaseDatabase.getInstance().getReference();
         mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mRole = SPManager.loadUserLoginData(mActivity.getApplicationContext(), Constants.ROLE);
     }
 
 
@@ -46,8 +50,13 @@ public class DeliveriesPresenter implements IDeliveriesPresenter {
                 List<Delivery> deliveryList = new ArrayList<Delivery>();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     Delivery delivery = d.getValue(Delivery.class);
-                    if (delivery.getSenderEmail().equals(mUser.getEmail()) ||
-                            delivery.getRecipientEmail().equals(mUser.getEmail())) {
+                    if (mRole.equals("User")) {
+                        if (delivery.getSenderEmail().equals(mUser.getEmail()) ||
+                                delivery.getRecipientEmail().equals(mUser.getEmail())) {
+                            deliveryList.add(delivery);
+                        }
+                    }
+                    if (mRole.equals("Administrator")) {
                         deliveryList.add(delivery);
                     }
                 }

@@ -13,6 +13,7 @@ import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.models.main.Point;
 import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.main.map.ShowLocationOnMapFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -23,6 +24,9 @@ import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -104,9 +108,16 @@ public class DriverInfoFragment extends Fragment {
 
     @OnClick(R.id.btn_find_driver)
     public void onFindDriverClick() {
-        if (mDriver.getLatitude().doubleValue() != 0 && mDriver.getLongitude().doubleValue() != 0) {
+        if (mDriver.getPoints() == null) {
+            List<Point> points = new ArrayList<>();
+            points.add(new Point(0d, 0d));
+            mDriver.setPoints(points);
+        }
+        List<Point> points = mDriver.getPoints();
+        Point point = mDriver.getPoints().get(points.size() - 1);
+        if (point.getLatitude().doubleValue() != 0 && point.getLongitude().doubleValue() != 0) {
             EventBus.getDefault().post(new EventMainChangeFragment(
-                    ShowLocationOnMapFragment.newInstance(mDriver.getLatitude(), mDriver.getLongitude(), "Driver"), true, 4));
+                    ShowLocationOnMapFragment.newInstance(point.getLatitude(), point.getLongitude(), "Driver"), true, 4));
         } else {
             Utils.showToastMessage(getActivity(), "Driver location data is empty");
         }

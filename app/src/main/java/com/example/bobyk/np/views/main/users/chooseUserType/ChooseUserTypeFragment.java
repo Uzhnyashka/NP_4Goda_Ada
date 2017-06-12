@@ -23,6 +23,7 @@ import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 /**
@@ -49,6 +50,7 @@ public class ChooseUserTypeFragment extends Fragment implements ChooseUserTypeVi
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        imageLoader = ImageLoader.getInstance();
         configImageLoader();
     }
 
@@ -57,6 +59,7 @@ public class ChooseUserTypeFragment extends Fragment implements ChooseUserTypeVi
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_choose_user_type, null);
 
+        ButterKnife.bind(this, view);
         init();
 
         return view;
@@ -99,21 +102,21 @@ public class ChooseUserTypeFragment extends Fragment implements ChooseUserTypeVi
 
     @OnClick(R.id.iv_users)
     public void onUsersImageClick() {
-        EventBus.getDefault().post(new EventMainChangeFragment(ShowUsersFragment.newInstance(), false, 4));
+        EventBus.getDefault().post(new EventMainChangeFragment(ShowUsersFragment.newInstance(), true, 4));
     }
 
     @OnClick(R.id.tv_users)
     public void onUsersTextClick() {
-        EventBus.getDefault().post(new EventMainChangeFragment(ShowUsersFragment.newInstance(), false, 4));
+        EventBus.getDefault().post(new EventMainChangeFragment(ShowUsersFragment.newInstance(), true, 4));
     }
 
-    @OnClick(R.id.tv_drivers)
+    @OnClick(R.id.iv_drivers)
     public void onDriversImageClick() {
-        EventBus.getDefault().post(new EventMainChangeFragment(ShowDriversFragment.newInstance(), false, 4));
+        EventBus.getDefault().post(new EventMainChangeFragment(ShowDriversFragment.newInstance(), true, 4));
     }
 
     @OnClick(R.id.tv_drivers)
     public void onDriversTextClick() {
-        EventBus.getDefault().post(new EventMainChangeFragment(ShowDriversFragment.newInstance(), false, 4));
+        EventBus.getDefault().post(new EventMainChangeFragment(ShowDriversFragment.newInstance(), true, 4));
     }
 }

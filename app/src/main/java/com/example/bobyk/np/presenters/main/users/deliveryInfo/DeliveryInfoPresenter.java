@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.models.main.Point;
 import com.example.bobyk.np.views.main.users.deliveryInfo.DeliveryInfoView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -13,6 +14,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -60,6 +64,7 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
 
     @Override
     public void loadRecipientUser(String userId) {
+        System.out.println("WWW userId " + userId);
         mDatabase.child("users").child(userId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -145,7 +150,14 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 Driver driver = dataSnapshot.getValue(Driver.class);
                 if (driver != null) {
-                    mView.successFindDeliveryLocation(driver.getLatitude(), driver.getLongitude());
+                    if (driver.getPoints() == null) {
+                        List<Point> points = new ArrayList<>();
+                        points.add(new Point(0d, 0d));
+                        driver.setPoints(points);
+                    }
+                    List<Point> points = driver.getPoints();
+                    Point point = driver.getPoints().get(points.size() - 1);
+                    mView.successFindDeliveryLocation(point.getLatitude(), point.getLongitude());
                 } else {
                     mView.onError();
                 }

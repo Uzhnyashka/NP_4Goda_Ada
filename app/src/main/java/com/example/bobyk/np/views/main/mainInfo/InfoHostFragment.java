@@ -34,13 +34,13 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
         Bundle args = new Bundle();
         InfoHostFragment fragment = new InfoHostFragment();
         fragment.setArguments(args);
-        fragment.setRole();
         return fragment;
     }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("WWW onCreate");
         EventBus.getDefault().register(this);
     }
 
@@ -57,12 +57,15 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        setRole();
         if (mRole.equals("Administrator")) {
+            System.out.println("WWW admin");
             if (mInfoAdminScreenFragment == null) {
                 mInfoAdminScreenFragment = InfoAdminScreenFragment.newInstance();
             }
         }
         if (mRole.equals("User")) {
+            System.out.println("WWW user");
             if (mInfoUserScreenFragment == null) {
                 mInfoUserScreenFragment = InfoUserScreenFragment.newInstance();
             }
@@ -73,7 +76,7 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
     private void init() {
         if (mRole.equals("Administrator")) {
             changeFragment(mInfoAdminScreenFragment, false);
-        } else {
+        } else if (mRole.equals("User")) {
             changeFragment(mInfoUserScreenFragment, false);
         }
     }
@@ -84,6 +87,7 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
     }
 
     private void changeFragment(Fragment fragment, boolean fragmentToBackStack) {
+        System.out.println("WWW " + fragment);
         if (!fragmentToBackStack) {
             for (int i = 0; i < getChildFragmentManager().getBackStackEntryCount(); i++) {
                 getChildFragmentManager().popBackStack();
@@ -112,6 +116,7 @@ public class InfoHostFragment extends Fragment implements InfoHostView {
     }
 
     private void setRole() {
-        mRole = SPManager.loadUserLoginData(getContext(), Constants.ROLE);
+        mRole = SPManager.loadUserLoginData(getActivity().getApplicationContext(), Constants.ROLE);
+        System.out.println("WWW setRole " + mRole);
     }
 }

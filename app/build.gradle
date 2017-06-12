@@ -1,15 +1,19 @@
 apply plugin: 'com.android.application'
+apply from: '../versions.gradle'
 
 android {
-    compileSdkVersion 25
-    buildToolsVersion "25.0.2"
+    compileSdkVersion COMPILE_SDK_VERSION as int
+    buildToolsVersion BUILD_TOOLS_VERSION
+
     defaultConfig {
         applicationId "com.example.bobyk.np"
-        minSdkVersion 21
-        targetSdkVersion 25
-        versionCode 1
-        versionName "1.0"
+        minSdkVersion MIN_SDK_VERSION as int
+        targetSdkVersion TARGET_SDK_VERSION as int
+        versionCode VERSION_CODE as int
+        versionName VERSION_NAME
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
     buildTypes {
         release {
@@ -17,6 +21,36 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+
+    dexOptions {
+        jumboMode true
+        javaMaxHeapSize "4g"
+    }
+
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/LICENSE'
+        exclude 'META-INF/NOTICE.txt'
+        exclude 'META-INF/NOTICE'
+        exclude 'META-INF/DEPENDENCIES'
+        pickFirst 'AndroidManifest.xml'
+    }
+
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            def file = file(name)
+            output.outputFile = new File(file.parent, "NP-" + name + "-" + versionName + ".apk");
+        }
+    }
+
+    lintOptions { abortOnError false }
+
 }
 
 dependencies {

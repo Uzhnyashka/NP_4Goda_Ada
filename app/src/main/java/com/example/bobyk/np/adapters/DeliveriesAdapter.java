@@ -51,7 +51,9 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.Vi
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mOnItemClickListener.onClick(position);
+                if (mOnItemClickListener != null) {
+                    mOnItemClickListener.onClick(position);
+                }
             }
         });
     }
