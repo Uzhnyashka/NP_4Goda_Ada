@@ -29,6 +29,8 @@ public abstract class Utils {
 
     public static final String APP_FILES_DIR = "NP";
     public static final String TEMP_FILES_DIR = "tempPhoto";
+    private static String senderLocation = "";
+    private static String recipientLocation = "";
 
     public static boolean isNetworkConnected(Activity context) {
         ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -211,5 +213,21 @@ public abstract class Utils {
 
     public static String generateFileNameDatePattern(String prefix, String ext) {
         return prefix + mDateFormat.format(new Date()) + "." + ext;
+    }
+
+    public static void setSenderLocation(String mSenderLocation) {
+        senderLocation = mSenderLocation;
+    }
+
+    public static void setRecipientLocation(String mRecipientLocation) {
+        recipientLocation = mRecipientLocation;
+    }
+
+    public static String getSenderLocation() {
+        return senderLocation;
+    }
+
+    public static String getRecipientLocation() {
+        return recipientLocation;
     }
 }

@@ -14,6 +14,8 @@ import android.support.v4.content.ContextCompat;
 import android.util.Log;
 
 import com.example.bobyk.np.global.Constants;
+import com.example.bobyk.np.models.authorization.Driver;
+import com.example.bobyk.np.models.main.Point;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.PendingResult;
@@ -26,8 +28,18 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResult;
 import com.google.android.gms.location.LocationSettingsStates;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.MutableData;
+import com.google.firebase.database.Transaction;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 /**
  * Created by bobyk on 6/12/17.
@@ -46,6 +58,8 @@ public class LoadLocationService extends Service {
     private LocationListener locationListener;
     private LocationRequest locationRequest;
     private PendingResult<LocationSettingsResult> result;
+    private DatabaseReference mDatabase;
+    private FirebaseUser mUser;
     private boolean isRequestingUpdates;
 
     @Override
@@ -53,6 +67,8 @@ public class LoadLocationService extends Service {
         super.onCreate();
         System.out.println(TAG + " onCreate");
         initListeners();
+        mUser = FirebaseAuth.getInstance().getCurrentUser();
+        mDatabase = FirebaseDatabase.getInstance().getReference();
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient.Builder(this)
                     .addApi(LocationServices.API)
@@ -124,7 +140,33 @@ public class LoadLocationService extends Service {
         locationListener = new LocationListener() {
             public void onLocationChanged(final Location newLocation) {
                 // Called when a new location is found by the network location provider.
-                System.out.println(TAG + " " + newLocation.getLatitude() + " " + newLocation.getLongitude());
+//                System.out.println(TAG + " " + newLocation.getLatitude() + " " + newLocation.getLongitude());
+            mDatabase.child("drivers").child(mUser.getUid()).runTransaction(new Transaction.Handler() {
+            @Override
+            public Transaction.Result doTransaction(MutableData mutableData) {
+                Driver driver = mutableData.getValue(Driver.class);
+                if (driver != null) {
+                    System.out.println("WWW driver not null");
+                    if (driver.getPoints() == null) {
+                        List<Point> points = new ArrayList<>();
+                        points.add(new Point(newLocation.getLatitude(), newLocation.getLongitude()));
+                        driver.setPoints(points);
+                    } else {
+                        driver.getPoints().add(new Point(newLocation.getLatitude(), newLocation.getLongitude()));
+                        mDatabase.child("drivers").child(mUser.getUid()).setValue(driver);
+                    }
+                } else {
+                    return Transaction.success(mutableData);
+                }
+                mutableData.setValue(driver);
+                return Transaction.success(mutableData);
+            }
+
+            @Override
+            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
+
+            }
+        });
             }
         };
     }
@@ -138,6 +180,8 @@ public class LoadLocationService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        System.out.println(TAG + " destroy" );
+        stopSelf();
         disconnectClient();
     }
 

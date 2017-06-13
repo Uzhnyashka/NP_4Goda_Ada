@@ -96,6 +96,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        System.out.println("WWW onCreate");
         setContentView(R.layout.activity_main);
         ButterKnife.bind(this);
         init();
@@ -113,7 +114,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
         if (mRole.equals("Driver")) {
             System.out.println("checkLockPerm");
             if (checkLocationPermission()) {
-
+                System.out.println("WWW startService");
                 startService(new Intent(this, LoadLocationService.class));
                 initFragment();
                 if (mBottomBar != null) {
@@ -504,8 +505,6 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 //    }
 
     private void updateDriverLocation(final Double latitude, final Double longitude) {
-        final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final DatabaseReference database = FirebaseDatabase.getInstance().getReference();
 //        database.child("drivers").child(user.getUid()).runTransaction(new Transaction.Handler() {
 //            @Override
 //            public Transaction.Result doTransaction(MutableData mutableData) {
@@ -557,5 +556,15 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
 //
 //            }
 //        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
     }
 }

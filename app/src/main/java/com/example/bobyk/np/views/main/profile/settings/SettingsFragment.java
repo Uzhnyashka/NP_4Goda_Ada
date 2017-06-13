@@ -10,8 +10,11 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
+import com.example.bobyk.np.global.Constants;
 import com.example.bobyk.np.models.authorization.BaseAuthModel;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.services.LoadLocationService;
+import com.example.bobyk.np.utils.SPManager;
 import com.example.bobyk.np.views.authorization.AuthActivity;
 import com.example.bobyk.np.views.main.MainActivity;
 import com.google.firebase.auth.FirebaseAuth;
@@ -89,6 +92,10 @@ public class SettingsFragment extends Fragment implements SettingsView {
 
     @OnClick(R.id.btn_logout)
     public void onLogoutClick() {
+        if (SPManager.loadUserLoginData(getActivity().getApplicationContext(), Constants.ROLE).equals("Driver")) {
+            getActivity().stopService(new Intent(getActivity(), LoadLocationService.class));
+        }
+
         FirebaseAuth.getInstance().signOut();
         startActivity(new Intent(getContext().getApplicationContext(), AuthActivity.class));
         getActivity().finish();

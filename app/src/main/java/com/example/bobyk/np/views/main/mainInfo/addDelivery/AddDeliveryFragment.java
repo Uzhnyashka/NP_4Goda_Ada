@@ -1,18 +1,26 @@
 package com.example.bobyk.np.views.main.mainInfo.addDelivery;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventMainChangeFragment;
+import com.example.bobyk.np.global.Constants;
 import com.example.bobyk.np.models.main.Delivery;
 import com.example.bobyk.np.presenters.main.mainInfo.addDelivery.AddDeliveryPresenter;
 import com.example.bobyk.np.utils.Utils;
+import com.example.bobyk.np.views.main.mainInfo.addDelivery.chooseCity.ChooseCityFragment;
 import com.example.bobyk.np.views.main.mainInfo.addDelivery.chooseDriver.ChooseDriverFragment;
 
 import org.greenrobot.eventbus.EventBus;
@@ -41,6 +49,7 @@ public class AddDeliveryFragment extends Fragment implements AddDeliveryView{
     EditText mPriceEditText;
 
     private AddDeliveryPresenter mPresenter;
+    private boolean ok = true;
 
     public static AddDeliveryFragment newInstance() {
         Bundle args = new Bundle();
@@ -61,8 +70,43 @@ public class AddDeliveryFragment extends Fragment implements AddDeliveryView{
         View view = inflater.inflate(R.layout.fragment_add_delivery, null);
 
         ButterKnife.bind(this, view);
+        init();
 
         return view;
+    }
+
+    private void init() {
+        BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                int type = intent.getIntExtra(Constants.PARAM_CHOOSE_CITY_TASK, 0);
+                String cityName = intent.getStringExtra(Constants.PARAM_NAME_CITY);
+                if (type == 1) {
+                    mSenderLocationEditText.setText(cityName);
+                } else {
+                    mRecipientLocationEditText.setText(cityName);
+                }
+            }
+        };
+        IntentFilter intentFilter = new IntentFilter("ChooseCity");
+        getActivity().registerReceiver(broadcastReceiver, intentFilter);
+        mSenderLocationEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    onSenderLocationClick();
+                }
+            }
+        });
+
+        mRecipientLocationEditText.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    onRecipientLocationClick();
+                }
+            }
+        });
     }
 
     @Override
@@ -74,6 +118,14 @@ public class AddDeliveryFragment extends Fragment implements AddDeliveryView{
     @Override
     public void onFailedAddUserData(String message) {
         Utils.showToastMessage(getActivity(), message);
+    }
+
+    public void onSenderLocationClick() {
+        EventBus.getDefault().post(new EventMainChangeFragment(ChooseCityFragment.newInstance("Sender"), true, 2));
+    }
+
+    public void onRecipientLocationClick() {
+        EventBus.getDefault().post(new EventMainChangeFragment(ChooseCityFragment.newInstance("Recipient"), true, 2));
     }
 
     @OnClick(R.id.btn_next)
