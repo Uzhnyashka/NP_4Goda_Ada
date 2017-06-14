@@ -23,6 +23,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by bobyk on 6/13/17.
@@ -102,5 +103,10 @@ public class ChooseCityFragment extends Fragment implements ChooseCityView {
 
     private void setType(String type) {
         mType = type;
+    }
+
+    @OnClick(R.id.btn_back)
+    public void onBackClick() {
+        getActivity().onBackPressed();
     }
 }

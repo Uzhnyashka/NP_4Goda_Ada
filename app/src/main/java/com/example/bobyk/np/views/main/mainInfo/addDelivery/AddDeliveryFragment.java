@@ -49,7 +49,6 @@ public class AddDeliveryFragment extends Fragment implements AddDeliveryView{
     EditText mPriceEditText;
 
     private AddDeliveryPresenter mPresenter;
-    private boolean ok = true;
 
     public static AddDeliveryFragment newInstance() {
         Bundle args = new Bundle();
