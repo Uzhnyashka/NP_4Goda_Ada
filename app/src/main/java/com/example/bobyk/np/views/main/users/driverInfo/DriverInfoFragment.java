@@ -14,6 +14,7 @@ import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.models.main.Point;
+import com.example.bobyk.np.presenters.main.users.driverInfo.DriverInfoPresenter;
 import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.main.map.ShowLocationOnMapFragment;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
@@ -38,6 +39,8 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class DriverInfoFragment extends Fragment {
+
+    private DriverInfoPresenter mPresenter;
 
     @Bind(R.id.tv_first_name)
     TextView mFirstNameTextView;
@@ -69,6 +72,7 @@ public class DriverInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         configImageLoader();
         imageLoader = ImageLoader.getInstance();
+        mPresenter = new DriverInfoPresenter(getActivity());
     }
 
     @Nullable
@@ -83,6 +87,9 @@ public class DriverInfoFragment extends Fragment {
     }
 
     private void init() {
+        System.out.println("WWW init()");
+        List<Point> points = new ArrayList<>();
+        mPresenter.loadRoutePoints(points);
         if (mDriver != null) {
             if (mDriver.getPhotoUrl() != null && !mDriver.getPhotoUrl().equals("")) {
                 imageLoader.displayImage(mDriver.getPhotoUrl(), mDriverImageView, mOptions);

@@ -11,7 +11,7 @@ public class ApiModule {
 
     public static ApiInterface getApiInterface() {
         Retrofit.Builder builder = new Retrofit.Builder()
-                .baseUrl("")
+                .baseUrl("https://roads.googleapis.com/v1/")
                 .addConverterFactory(GsonConverterFactory.create());
 
         ApiInterface apiInterface = builder.build().create(ApiInterface.class);
