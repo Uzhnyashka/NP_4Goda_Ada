@@ -14,12 +14,15 @@ import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.global.Constants;
 import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.models.main.Delivery;
+import com.example.bobyk.np.models.main.Point;
 import com.example.bobyk.np.presenters.main.users.deliveryInfo.DeliveryInfoPresenter;
 import com.example.bobyk.np.utils.SPManager;
 import com.example.bobyk.np.utils.Utils;
-import com.example.bobyk.np.views.main.map.ShowLocationOnMapFragment;
+import com.example.bobyk.np.views.main.map.ShowRouteOnMapFragment;
 
 import org.greenrobot.eventbus.EventBus;
+
+import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -226,8 +229,8 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
     }
 
     @Override
-    public void successFindDeliveryLocation(Double latitude, Double longitude) {
-        EventBus.getDefault().post(new EventMainChangeFragment(ShowLocationOnMapFragment.newInstance(latitude, longitude, "Delivery"), true, mNum));
+    public void successFindDeliveryLocation(List<Point> pointList) {
+        EventBus.getDefault().post(new EventMainChangeFragment(ShowRouteOnMapFragment.newInstance(pointList, "Delivery"), true, mNum));
     }
 
     private void setNum(int num) {

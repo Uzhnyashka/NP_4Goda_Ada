@@ -156,8 +156,7 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
                         driver.setPoints(points);
                     }
                     List<Point> points = driver.getPoints();
-                    Point point = driver.getPoints().get(points.size() - 1);
-                    mView.successFindDeliveryLocation(point.getLatitude(), point.getLongitude());
+                    mView.successFindDeliveryLocation(points);
                 } else {
                     mView.onError();
                 }

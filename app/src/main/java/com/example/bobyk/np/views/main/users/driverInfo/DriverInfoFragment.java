@@ -12,11 +12,11 @@ import android.widget.TextView;
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventMainChangeFragment;
 import com.example.bobyk.np.models.authorization.Driver;
-import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.models.main.Point;
 import com.example.bobyk.np.presenters.main.users.driverInfo.DriverInfoPresenter;
 import com.example.bobyk.np.utils.Utils;
-import com.example.bobyk.np.views.main.map.ShowLocationOnMapFragment;
+import com.example.bobyk.np.views.main.map.ShowRouteOnMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 import com.nostra13.universalimageloader.cache.memory.impl.WeakMemoryCache;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -38,9 +38,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by bobyk on 6/10/17.
  */
 
-public class DriverInfoFragment extends Fragment {
-
-    private DriverInfoPresenter mPresenter;
+public class DriverInfoFragment extends Fragment implements DriverInfoView {
 
     @Bind(R.id.tv_first_name)
     TextView mFirstNameTextView;
@@ -72,7 +70,6 @@ public class DriverInfoFragment extends Fragment {
         super.onCreate(savedInstanceState);
         configImageLoader();
         imageLoader = ImageLoader.getInstance();
-        mPresenter = new DriverInfoPresenter(getActivity());
     }
 
     @Nullable
@@ -87,9 +84,6 @@ public class DriverInfoFragment extends Fragment {
     }
 
     private void init() {
-        System.out.println("WWW init()");
-        List<Point> points = new ArrayList<>();
-        mPresenter.loadRoutePoints(points);
         if (mDriver != null) {
             if (mDriver.getPhotoUrl() != null && !mDriver.getPhotoUrl().equals("")) {
                 imageLoader.displayImage(mDriver.getPhotoUrl(), mDriverImageView, mOptions);
@@ -115,16 +109,10 @@ public class DriverInfoFragment extends Fragment {
 
     @OnClick(R.id.btn_find_driver)
     public void onFindDriverClick() {
-        if (mDriver.getPoints() == null) {
-            List<Point> points = new ArrayList<>();
-            points.add(new Point(0d, 0d));
-            mDriver.setPoints(points);
-        }
         List<Point> points = mDriver.getPoints();
-        Point point = mDriver.getPoints().get(points.size() - 1);
-        if (point.getLatitude().doubleValue() != 0 && point.getLongitude().doubleValue() != 0) {
+        if (points != null && points.size() > 0) {
             EventBus.getDefault().post(new EventMainChangeFragment(
-                    ShowLocationOnMapFragment.newInstance(point.getLatitude(), point.getLongitude(), "Driver"), true, 4));
+                    ShowRouteOnMapFragment.newInstance(points, "Driver"), true, 4));
         } else {
             Utils.showToastMessage(getActivity(), "Driver location data is empty");
         }
@@ -157,5 +145,15 @@ public class DriverInfoFragment extends Fragment {
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
+    }
+
+    @Override
+    public void successLoadRoutePoints(List<List<LatLng>> points) {
+
+    }
+
+    @Override
+    public void onError() {
+        Utils.showToastMessage(getActivity(), "Error route points");
     }
 }
