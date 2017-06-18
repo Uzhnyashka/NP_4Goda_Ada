@@ -7,8 +7,8 @@ package com.example.bobyk.np.presenters.main.users.deliveryInfo;
 public interface IDeliveryInfoPresenter {
     void loadSenderUser(String userId);
     void loadRecipientUser(String userId);
-    void setSendStatus(String deliveryId);
-    void setDeliveredStatus(String deliveryId);
-    void setObtainedStatus(String deliveryId);
+    void setSendStatus(String deliveryId, String recipientId);
+    void setDeliveredStatus(String deliveryId, String recipientId);
+    void setObtainedStatus(String deliveryId, String recipientId);
     void findDelivery(String deliveryId);
 }

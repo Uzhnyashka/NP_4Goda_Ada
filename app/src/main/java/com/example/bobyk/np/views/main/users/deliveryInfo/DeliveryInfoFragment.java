@@ -137,19 +137,19 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
             mSentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.setSendStatus(mDelivery.getId());
+                    mPresenter.setSendStatus(mDelivery.getId(), mDelivery.getRecipientId());
                 }
             });
             mDeliveredButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.setDeliveredStatus(mDelivery.getId());
+                    mPresenter.setDeliveredStatus(mDelivery.getId(), mDelivery.getRecipientId());
                 }
             });
             mObtainedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mPresenter.setObtainedStatus(mDelivery.getId());
+                    mPresenter.setObtainedStatus(mDelivery.getId(), mDelivery.getRecipientId());
                 }
             });
         }

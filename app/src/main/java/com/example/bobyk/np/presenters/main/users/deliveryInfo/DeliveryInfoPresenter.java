@@ -5,7 +5,9 @@ import android.support.annotation.NonNull;
 
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.models.main.Message;
 import com.example.bobyk.np.models.main.Point;
+import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.main.users.deliveryInfo.DeliveryInfoView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,6 +18,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 
@@ -84,12 +87,13 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
     }
 
     @Override
-    public void setSendStatus(String deliveryId) {
+    public void setSendStatus(final String deliveryId, final String recipientId) {
         mDatabase.child("deliveries").child(deliveryId).child("status").setValue("Sent")
                 .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            createMessage(deliveryId, recipientId, "Sent");
                             mView.successSetSentStatus();
                         } else {
                             mView.onError();
@@ -99,12 +103,13 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
     }
 
     @Override
-    public void setDeliveredStatus(String deliveryId) {
+    public void setDeliveredStatus(final String deliveryId, final String recipientId) {
         mDatabase.child("deliveries").child(deliveryId).child("status").setValue("Delivered")
                 .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            createMessage(deliveryId, recipientId, "Delivered");
                             mView.successSetDeliveredStatus();
                         } else {
                             mView.onError();
@@ -114,12 +119,13 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
     }
 
     @Override
-    public void setObtainedStatus(String deliveryId) {
+    public void setObtainedStatus(final String deliveryId, final String recipientId) {
         mDatabase.child("deliveries").child(deliveryId).child("status").setValue("Obtained")
                 .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
+                            createMessage(deliveryId, recipientId, "Obtained");
                             mView.successSetObtainedStatus();
                         } else {
                             mView.onError();
@@ -167,5 +173,21 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
                 mView.onError();
             }
         });
+    }
+
+    private void createMessage(String deliveryId, String recipientId, String status) {
+        Calendar calendar = Calendar.getInstance();
+        Message message = new Message(deliveryId, recipientId, status, calendar.getTimeInMillis());
+        mDatabase.child("messages").setValue(message)
+                .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Utils.showToastMessage(mActivity, "Success send message");
+                        } else {
+                            Utils.showToastMessage(mActivity, "Failed send message");
+                        }
+                    }
+                });
     }
 }
