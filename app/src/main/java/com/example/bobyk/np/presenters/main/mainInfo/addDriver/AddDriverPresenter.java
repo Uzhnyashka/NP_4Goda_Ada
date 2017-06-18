@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.main.Point;
+import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.main.mainInfo.addDriver.AddDriverView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -66,11 +67,26 @@ public class AddDriverPresenter implements IAddDriverPresenter {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             addDriverAditionalData(driver);
-                            mAuthAdditional.signOut();
+                            sendEmailVerification();
                         } else {
                             mView.onFailedRegisterDriver(task.getException().getMessage());
                             mAuthAdditional.signOut();
                         }
+                    }
+                });
+    }
+
+    private void sendEmailVerification() {
+        mAuthAdditional.getCurrentUser().sendEmailVerification()
+                .addOnCompleteListener(mActivity, new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Utils.showToastMessage(mActivity, "Success sent email verification");
+                        } else {
+                            Utils.showToastMessage(mActivity, "Error sent email verification");
+                        }
+                        mAuthAdditional.signOut();
                     }
                 });
     }

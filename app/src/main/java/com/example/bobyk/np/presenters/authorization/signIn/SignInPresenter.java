@@ -9,6 +9,7 @@ import com.example.bobyk.np.models.authorization.Admin;
 import com.example.bobyk.np.models.authorization.BaseAuthModel;
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.authorization.signIn.SignInView;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -96,7 +97,11 @@ public class SignInPresenter implements ISignInPresenter {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            mView.onSuccessSingIn();
+                            if (mAuth.getCurrentUser().isEmailVerified()) {
+                                mView.onSuccessSingIn();
+                            } else {
+                                Utils.showToastMessage(mActivity, "Please verify your email");
+                            }
                         } else {
                             mView.onFailSignIn(task.getException().getMessage());
                         }

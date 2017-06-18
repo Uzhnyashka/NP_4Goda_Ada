@@ -62,8 +62,8 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private String doTextForDescription(Message message) {
         if (message.getStatus().equals("Sent")) {
             return message.getSenderFullName() + " sent delivery #" +
-                    message.getDeliveryId() + " to you in" +
-                    message.getRecipientLocation() + "from " + message.getSenderLocation();
+                    message.getDeliveryId() + " to you in " +
+                    message.getRecipientLocation() + " from " + message.getSenderLocation();
         } else if (message.getStatus().equals("Delivered")) {
             return "Delivery #" + message.getDeliveryId() + " from " + message.getSenderFullName() +
                     " delivered to " + message.getRecipientLocation();

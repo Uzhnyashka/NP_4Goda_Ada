@@ -45,24 +45,22 @@ public class MessagesPresenter implements IMessagesPresenter {
 
     @Override
     public void loadNotifications() {
-        mDatabase.child("messages").runTransaction(new Transaction.Handler() {
+        mDatabase.child("messages").addValueEventListener(new ValueEventListener() {
             @Override
-            public Transaction.Result doTransaction(MutableData mutableData) {
+            public void onDataChange(DataSnapshot dataSnapshot) {
                 messages = new ArrayList<Message>();
-                for (MutableData childSnapshot : mutableData.getChildren()) {
+                for (DataSnapshot childSnapshot : dataSnapshot.getChildren()) {
                     Message message = childSnapshot.getValue(Message.class);
                     if (message.getRecipientId().equals(mUser.getUid())) {
                         messages.add(message);
                     }
                 }
                 findDeliveryData();
-//                mView.setNotificationList(messages);
-                return Transaction.success(mutableData);
             }
 
             @Override
-            public void onComplete(DatabaseError databaseError, boolean b, DataSnapshot dataSnapshot) {
-
+            public void onCancelled(DatabaseError databaseError) {
+                mView.onError();
             }
         });
     }
@@ -84,7 +82,7 @@ public class MessagesPresenter implements IMessagesPresenter {
                     messages.get(pos).setSenderFullName(delivery.getSenderName());
                     messages.get(pos).setRecipientFullName(delivery.getRecipientName());
                     messages.get(pos).setSenderLocation(delivery.getSenderLocation());
-                    messages.get(pos).setRecipientFullName(delivery.getRecipientLocation());
+                    messages.get(pos).setRecipientLocation(delivery.getRecipientLocation());
                 }
                 if (pos == messages.size() - 1) {
                     mView.setNotificationList(messages);

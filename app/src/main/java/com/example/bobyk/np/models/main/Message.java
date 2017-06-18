@@ -17,6 +17,7 @@ public class Message {
     private String senderLocation;
     private String recipientLocation;
     private String recipientFullName;
+    private String id;
 
     public Message() {
 
@@ -91,5 +92,13 @@ public class Message {
 
     public void setSenderLocation(String senderLocation) {
         this.senderLocation = senderLocation;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getId() {
+        return id;
     }
 }
