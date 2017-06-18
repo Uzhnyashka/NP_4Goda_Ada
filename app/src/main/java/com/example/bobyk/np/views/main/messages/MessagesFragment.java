@@ -1,4 +1,4 @@
-package com.example.bobyk.np.views.main.notifications;
+package com.example.bobyk.np.views.main.messages;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,9 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.bobyk.np.R;
-import com.example.bobyk.np.adapters.NotificationsAdapter;
-import com.example.bobyk.np.models.main.Notification;
-import com.example.bobyk.np.presenters.main.notifications.NotificationPresenter;
+import com.example.bobyk.np.adapters.MessagesAdapter;
+import com.example.bobyk.np.models.main.Message;
+import com.example.bobyk.np.presenters.main.messages.MessagesPresenter;
+import com.example.bobyk.np.utils.Utils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,18 +25,18 @@ import butterknife.ButterKnife;
  * Created by bobyk on 6/6/17.
  */
 
-public class NotificationFragment extends Fragment implements NotificationView {
+public class MessagesFragment extends Fragment implements MessagesView {
 
     @Bind(R.id.rv_notifications)
     RecyclerView mNotificationsRecyclerView;
 
-    private NotificationPresenter mPresenter;
-    private NotificationsAdapter mAdapter;
-    private List<Notification> mNotifications = new ArrayList<>();
+    private MessagesPresenter mPresenter;
+    private MessagesAdapter mAdapter;
+    private List<Message> mNotifications = new ArrayList<>();
 
-    public static NotificationFragment newInstance() {
+    public static MessagesFragment newInstance() {
         Bundle args = new Bundle();
-        NotificationFragment fragment = new NotificationFragment();
+        MessagesFragment fragment = new MessagesFragment();
         fragment.setArguments(args);
         return fragment;
     }
@@ -43,8 +44,8 @@ public class NotificationFragment extends Fragment implements NotificationView {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mPresenter = new NotificationPresenter(getActivity(), this);
-        mAdapter = new NotificationsAdapter(getContext(), mNotifications);
+        mPresenter = new MessagesPresenter(getActivity(), this);
+        mAdapter = new MessagesAdapter(getContext(), mNotifications);
     }
 
     @Nullable
@@ -70,9 +71,14 @@ public class NotificationFragment extends Fragment implements NotificationView {
     }
 
     @Override
-    public void setNotificationList(List<Notification> notifications) {
+    public void setNotificationList(List<Message> notifications) {
         mNotifications.clear();
         mNotifications.addAll(notifications);
         mAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onError() {
+        Utils.showToastMessage(getActivity(), "Error load messages");
     }
 }

@@ -4,9 +4,6 @@ import android.Manifest;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,28 +19,13 @@ import android.widget.FrameLayout;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.global.Constants;
-import com.example.bobyk.np.models.authorization.Driver;
-import com.example.bobyk.np.models.main.Point;
 import com.example.bobyk.np.services.LoadLocationService;
 import com.example.bobyk.np.utils.SPManager;
 import com.example.bobyk.np.views.main.driverDeliveries.DriverDeliveriesFragment;
 import com.example.bobyk.np.views.main.mainInfo.InfoHostFragment;
-import com.example.bobyk.np.views.main.notifications.NotificationFragment;
+import com.example.bobyk.np.views.main.messages.MessagesFragment;
 import com.example.bobyk.np.views.main.profile.ProfileHostFragment;
 import com.example.bobyk.np.views.main.users.UsersHostFragment;
-import com.google.android.gms.location.LocationServices;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.MutableData;
-import com.google.firebase.database.Transaction;
-import com.google.firebase.database.ValueEventListener;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -61,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     @Bind(R.id.border_main)
     View borderMainView;
 
-    private NotificationFragment mNotificationFragment;
+    private MessagesFragment mNotificationFragment;
     private InfoHostFragment mInfoHostFragment;
     private ProfileHostFragment mProfileHostFragment;
     private DriverDeliveriesFragment mDriverDeliveriesFragment;
@@ -265,7 +247,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
     }
 
     private void initFragment() {
-        mNotificationFragment = NotificationFragment.newInstance();
+        mNotificationFragment = MessagesFragment.newInstance();
         mInfoHostFragment = InfoHostFragment.newInstance();
         mProfileHostFragment = ProfileHostFragment.newInstance();
         mDriverDeliveriesFragment = DriverDeliveriesFragment.newInstance();
@@ -365,7 +347,7 @@ public class MainActivity extends AppCompatActivity implements TabLayout.OnTabSe
             switch (tab.getPosition()) {
                 case 0:
                     if (mNotificationFragment == null) {
-                        mNotificationFragment = NotificationFragment.newInstance();
+                        mNotificationFragment = MessagesFragment.newInstance();
                     }
                     setActiveFragment(mNotificationFragment, 1);
                     break;
