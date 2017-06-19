@@ -2,8 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/colorWhite"
-    android:layout_margin="@dimen/_4sdp"
+    android:layout_marginStart="@dimen/_10sdp"
+    android:layout_marginEnd="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_6sdp"
+    android:layout_marginBottom="@dimen/_6sdp"
+    android:background="@drawable/icon_bg_selector"
     android:id="@+id/card">
 
     <TextView
@@ -13,6 +16,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginStart="@dimen/_16sdp"
         android:text="123123124123123"
+        android:layout_centerHorizontal="true"
         android:textSize="16sp"
         android:textColor="@android:color/black"
         />
@@ -35,6 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_sender_location"
+        android:textSize="16sp"
         android:text="Uzhgorod"
         android:layout_marginStart="@dimen/_10sdp"
         android:layout_below="@+id/tv_send_date"
@@ -60,6 +65,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_recipient_location"
+        android:textSize="16sp"
         android:text="Kremenchuk"
         android:layout_marginEnd="@dimen/_10sdp"
         android:layout_below="@+id/tv_send_date"
@@ -74,8 +80,8 @@
         android:layout_below="@+id/tv_recipient_location"
         android:layout_marginTop="@dimen/_16sdp"
         android:layout_centerHorizontal="true"
-        android:text="Done"
-        android:textColor="@color/colorLoginButton"
+        android:text="Sent"
+        android:textColor="@color/colorStatusSelected"
         android:textStyle="bold"
         android:textSize="18sp"
         />

@@ -16,6 +16,7 @@ public interface ProfilePageView {
     void setPhoneNumber(String phoneNumber);
     void setPhoto(String photoUrl);
     void setUserData(BaseAuthModel user);
+    void setEmail(String email);
     void setProfileImage(File file);
     void onSuccessLoadPhotoToDatabase();
     void onFailedLoadPhotoToDatabase();

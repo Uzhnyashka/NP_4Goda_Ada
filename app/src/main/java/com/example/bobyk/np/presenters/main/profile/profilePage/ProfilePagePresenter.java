@@ -92,6 +92,7 @@ public class ProfilePagePresenter implements IProfilePagePresenter {
                     mView.setFullName(user.getSurname() + " " + user.getFirstName() + " " + user.getMiddleName());
                     mView.setPhoneNumber(user.getPhoneNumber());
                     mView.setPhoto(user.getPhotoUrl());
+                    mView.setEmail(user.getEmail());
                     mView.setUserData(user);
                 }
             }

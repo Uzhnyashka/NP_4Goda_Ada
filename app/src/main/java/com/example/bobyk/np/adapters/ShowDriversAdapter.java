@@ -58,9 +58,9 @@ public class ShowDriversAdapter extends RecyclerView.Adapter<ShowDriversAdapter.
     public void onBindViewHolder(ViewHolder holder, final int position) {
         holder.bind(position);
         if (position == selectedPosition) {
-            holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorLoginButton));
+            holder.mCardRelativeLayout.setBackground(mContext.getResources().getDrawable(R.drawable.auth_field_selected));
         } else {
-            holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
+            holder.mCardRelativeLayout.setBackground(mContext.getResources().getDrawable(R.drawable.auth_field));
         }
         Driver driver = mDriverList.get(position);
         imageLoader.displayImage(driver.getPhotoUrl(), holder.mDriverImageView, mOptions);

@@ -33,17 +33,51 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rl_toolbar"
+        android:background="@color/app_main_border_color"
+        />
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_below="@+id/rl_toolbar"
+        android:id="@+id/rl_main_info"
+        android:layout_height="wrap_content"
+        android:paddingBottom="@dimen/_20sdp"
+        android:layout_margin="@dimen/_10sdp"
+        android:background="@drawable/icon_bg_selector"
+        >
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_below="@+id/iv_user"
+            android:background="@drawable/auth_field"
+            android:padding="@dimen/_4sdp"
+            android:layout_margin="@dimen/_8sdp"
+            android:layout_height="wrap_content">
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_first_name_label"
-        android:layout_below="@+id/iv_user"
         android:layout_marginStart="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_8sdp"
         android:text="First name"
         android:textColor="@android:color/black"
         />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:layout_below="@+id/tv_first_name_label"
+                android:background="@color/app_main_border_color"
+                />
 
 
     <TextView
@@ -58,6 +92,15 @@
         android:textColor="@android:color/black"
         />
 
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:layout_below="@+id/tv_surname_label"
+                android:background="@color/app_main_border_color"
+                />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -69,6 +112,15 @@
         android:text="Middle name"
         android:textColor="@android:color/black"
         />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:layout_below="@+id/tv_middlename_label"
+                android:background="@color/app_main_border_color"
+                />
 
     <TextView
         android:layout_width="wrap_content"
@@ -82,7 +134,17 @@
         android:textColor="@android:color/black"
         />
 
-    <TextView
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginStart="@dimen/_14sdp"
+                android:layout_marginEnd="@dimen/_14sdp"
+                android:layout_below="@+id/tv_email_label"
+                android:background="@color/app_main_border_color"
+                />
+
+
+            <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tv_phone_number_label"
@@ -100,7 +162,6 @@
         android:layout_height="wrap_content"
         android:id="@+id/tv_first_name"
         android:layout_alignParentEnd="true"
-        android:layout_below="@+id/iv_user"
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_16sdp"
         android:layout_marginBottom="@dimen/_8sdp"
@@ -161,26 +222,7 @@
         />
 
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tv_phone_number">
-
-        <Button
-            android:layout_width="@dimen/_150sdp"
-            android:layout_height="@dimen/_35sdp"
-            android:id="@+id/btn_active_deliveries"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
-            android:layout_marginTop="@dimen/_48sdp"
-            android:layout_marginBottom="@dimen/_12sdp"
-            android:textAllCaps="false"
-            android:text="User active deliveries"
-            android:background="@drawable/button_sign_in"
-            android:textColor="@android:color/black"
-            />
-
-    </RelativeLayout>
+        </RelativeLayout>
 
 
 
@@ -191,8 +233,29 @@
         app:civ_border_width="2dp"
         app:civ_border_color="@color/colorLoginButton"
         android:layout_marginTop="19dp"
-        android:layout_below="@+id/rl_toolbar"
+        android:layout_marginBottom="@dimen/_8sdp"
         android:layout_centerHorizontal="true" />
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@+id/rl_main_info">
+
+        <Button
+            android:layout_width="@dimen/_150sdp"
+            android:layout_height="@dimen/_35sdp"
+            android:id="@+id/btn_active_deliveries"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:textAllCaps="false"
+            android:text="User active deliveries"
+            android:background="@drawable/button_sign_in"
+            android:textColor="@android:color/black"
+            />
+
+    </RelativeLayout>
 
 
 </RelativeLayout>

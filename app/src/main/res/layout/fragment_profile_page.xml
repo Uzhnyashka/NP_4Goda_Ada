@@ -185,32 +185,56 @@
                     android:paddingTop="@dimen/_50sdp"
                     android:background="@color/colorWhite">
 
-                    <TextView
+                    <RelativeLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_full_name"
-                        android:gravity="center"
-                        android:layout_marginTop="12dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="4dp"
-                        android:textSize="16sp"
-                        android:textStyle="bold"
-                        android:textColor="@color/colorPostUsername"
-                        />
+                        android:layout_height="match_parent"
+                        android:layout_margin="@dimen/_8sdp"
+                        android:background="@drawable/icon_bg_selector"
+                        >
 
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tv_phone_number"
-                        android:layout_below="@+id/tv_full_name"
-                        android:gravity="center"
-                        android:layout_marginTop="4dp"
-                        android:layout_marginStart="8dp"
-                        android:layout_marginEnd="8dp"
-                        android:layout_marginBottom="8dp"
-                        android:textColor="@color/colorGrayText"
-                        />
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_full_name"
+                            android:gravity="center"
+                            android:layout_above="@+id/tv_phone_number"
+                            android:layout_marginTop="12dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="4dp"
+                            android:textSize="16sp"
+                            android:textStyle="bold"
+                            android:textColor="@color/colorPostUsername"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_phone_number"
+                            android:layout_centerHorizontal="true"
+                            android:layout_centerVertical="true"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:textColor="@color/colorGrayText"
+                            />
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/tv_email"
+                            android:layout_below="@+id/tv_phone_number"
+                            android:gravity="center"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:textColor="@color/colorGrayText"
+                            />
+
+                    </RelativeLayout>
 
                 </RelativeLayout>
 
@@ -222,7 +246,7 @@
                     android:id="@+id/iv_profile_image"
                     android:layout_centerHorizontal="true"
                     app:civ_border_width="2dp"
-                    app:civ_border_color="@color/colorWhite"/>
+                    app:civ_border_color="@color/colorLoginButton"/>
 
             </RelativeLayout>
 

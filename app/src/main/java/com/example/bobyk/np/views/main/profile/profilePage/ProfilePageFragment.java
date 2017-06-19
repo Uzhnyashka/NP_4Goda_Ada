@@ -65,6 +65,8 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
     RelativeLayout profileContentRelativeLayout;
     @Bind(R.id.rl_crop_content)
     RelativeLayout cropContent;
+    @Bind(R.id.tv_email)
+    TextView mEmailTextView;
 
     private ProfilePagePresenter mPresenter;
     private DisplayImageOptions mOptions;
@@ -142,6 +144,11 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
     @Override
     public void setUserData(BaseAuthModel user) {
         mUser = user;
+    }
+
+    @Override
+    public void setEmail(String email) {
+        mEmailTextView.setText(email);
     }
 
 

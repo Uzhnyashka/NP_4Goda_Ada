@@ -41,13 +41,13 @@ public class DeliveriesAdapter extends RecyclerView.Adapter<DeliveriesAdapter.Vi
     @Override
     public void onBindViewHolder(ViewHolder holder, final int position) {
         Delivery delivery = mDeliveryList.get(position);
-        holder.mDeliveryIdTextView.setText(delivery.getId());
+        holder.mDeliveryIdTextView.setText("Number #" + delivery.getId());
         holder.mSendDateTextView.setText(delivery.getSendDate());
         holder.mSenderLocationTextView.setText(delivery.getSenderLocation());
-        holder.mRecipientDateTextView.setText(delivery.getRecipientDate());
+        holder.mRecipientDateTextView.setText(delivery.getSendDate());
         holder.mRecipientLocationTextView.setText(delivery.getRecipientLocation());
         holder.mStatusTextView.setText(delivery.getStatus());
-        holder.mPriceTextView.setText(String.valueOf(delivery.getPrice()));
+        holder.mPriceTextView.setText("Price $" + String.valueOf(delivery.getPrice()));
         holder.mCardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

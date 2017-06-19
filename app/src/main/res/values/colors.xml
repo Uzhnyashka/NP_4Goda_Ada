@@ -36,13 +36,18 @@
 
     <color name="color_white">#ffffff</color>
     <color name="app_bg_color">#0d0d0d</color>
+    <color name="app_main_bg_color">#bebebe</color>
+    <color name="app_main_border_color">#7b7a7a</color>
     <color name="app_text_color">#b4bed1</color>
     <color name="setting_bg_color">#c9ccd2</color>
-    <color name="app_hint_text_color">#966f7581</color>
+    <color name="app_hint_text_color">#9650545c</color>
+    <color name="app_hint_main_text_color">#c9525761</color>
     <color name="colorLoginButton">#e4983f</color>
     <color name="color_bg_light_black">#32000000</color>
-    <color name="colorStatusSelected">#a0ed8f</color>
+    <color name="colorStatusSelected">#408432</color>
     <color name="colorStatusUnselected">#bababa</color>
     <color name="routeColor">#b30c0c</color>
+    <color name="icon_bg">#4d797979</color>
+    <color name="icon_bg_pressed">#ba515151</color>
 
 </resources>

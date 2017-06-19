@@ -58,9 +58,9 @@ public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHold
     public void onBindViewHolder(final ViewHolder holder, final int position) {
         holder.bind(position);
         if (position == selectedPosition) {
-            holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorLoginButton));
+            holder.mCardRelativeLayout.setBackground(mContext.getResources().getDrawable(R.drawable.auth_field_selected));
         } else {
-            holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
+            holder.mCardRelativeLayout.setBackground(mContext.getResources().getDrawable(R.drawable.auth_field));
         }
         Driver driver = mDriverList.get(position);
         imageLoader.displayImage(driver.getPhotoUrl(), holder.mDriverImageView, mOptions);
@@ -71,11 +71,11 @@ public class DriversAdapter extends RecyclerView.Adapter<DriversAdapter.ViewHold
             @Override
             public void onClick(View v) {
                 for (ViewHolder holder : mHoldersList) {
-                    holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.color_white));
+                    holder.mCardRelativeLayout.setBackground(mContext.getResources().getDrawable(R.drawable.auth_field));
                 }
                 mDriverSelecterListener.onSelected(position);
                 selectedPosition = position;
-                holder.mCardRelativeLayout.setBackgroundColor(mContext.getResources().getColor(R.color.colorLoginButton));
+                holder.mCardRelativeLayout.setBackground(mContext.getResources().getDrawable(R.drawable.auth_field_selected));
             }
         });
     }

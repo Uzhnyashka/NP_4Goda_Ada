@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/app_main_bg_color">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,9 +34,17 @@
 
     </RelativeLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_below="@+id/rl_toolbar"
+        android:background="@color/app_main_border_color"
+        />
+
+
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_35sdp"
         android:id="@+id/et_firstname"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/et_surname"
@@ -46,6 +55,8 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/main_field_selector"
+        android:paddingStart="@dimen/_14sdp"
         android:textColor="@android:color/black"
         android:textColorHint="@color/app_hint_text_color"
         android:hint="@string/firstname"
@@ -53,7 +64,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_35sdp"
         android:id="@+id/et_surname"
         android:layout_centerHorizontal="true"
         android:layout_above="@+id/et_middlename"
@@ -64,6 +75,8 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/main_field_selector"
+        android:paddingStart="@dimen/_14sdp"
         android:textColor="@android:color/black"
         android:textColorHint="@color/app_hint_text_color"
         android:hint="@string/surname"
@@ -71,10 +84,10 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_35sdp"
         android:id="@+id/et_middlename"
         android:layout_centerHorizontal="true"
-        android:layout_above="@+id/et_email"
+        android:layout_above="@+id/et_phone"
         android:textSize="16sp"
         android:lines="1"
         android:inputType="textEmailAddress"
@@ -82,6 +95,8 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/main_field_selector"
+        android:paddingStart="@dimen/_14sdp"
         android:textColor="@android:color/black"
         android:textColorHint="@color/app_hint_text_color"
         android:hint="@string/middlename"
@@ -89,8 +104,8 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/et_email"
+        android:layout_height="@dimen/_35sdp"
+        android:id="@+id/et_phone"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
         android:textSize="16sp"
@@ -100,6 +115,28 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/main_field_selector"
+        android:paddingStart="@dimen/_14sdp"
+        android:textColor="@android:color/black"
+        android:textColorHint="@color/app_hint_text_color"
+        android:hint="@string/phone"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/_35sdp"
+        android:id="@+id/et_email"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/et_phone"
+        android:textSize="16sp"
+        android:lines="1"
+        android:inputType="textEmailAddress"
+        android:layout_marginStart="@dimen/_16sdp"
+        android:layout_marginEnd="@dimen/_16sdp"
+        android:layout_marginTop="@dimen/_8sdp"
+        android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/main_field_selector"
+        android:paddingStart="@dimen/_14sdp"
         android:textColor="@android:color/black"
         android:textColorHint="@color/app_hint_text_color"
         android:hint="@string/email"
@@ -107,7 +144,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_35sdp"
         android:id="@+id/et_password"
         android:layout_below="@+id/et_email"
         android:layout_centerVertical="true"
@@ -115,6 +152,8 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/main_field_selector"
+        android:paddingStart="@dimen/_14sdp"
         android:lines="1"
         android:inputType="textPassword"
         android:textSize="16sp"
@@ -125,7 +164,7 @@
 
     <EditText
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="@dimen/_35sdp"
         android:id="@+id/et_confirm_password"
         android:layout_below="@+id/et_password"
         android:layout_centerVertical="true"
@@ -133,6 +172,8 @@
         android:layout_marginEnd="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:layout_marginBottom="@dimen/_8sdp"
+        android:background="@drawable/main_field_selector"
+        android:paddingStart="@dimen/_14sdp"
         android:lines="1"
         android:inputType="textPassword"
         android:textSize="16sp"
@@ -147,8 +188,8 @@
         android:id="@+id/btn_register"
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/et_confirm_password"
-        android:layout_marginTop="@dimen/_24sdp"
-        android:layout_marginBottom="@dimen/_12sdp"
+        android:layout_marginTop="@dimen/_14sdp"
+        android:layout_marginBottom="@dimen/_6sdp"
         android:layout_marginStart="@dimen/_48sdp"
         android:layout_marginEnd="@dimen/_48sdp"
         android:textAllCaps="false"
