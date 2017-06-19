@@ -5,10 +5,13 @@ import android.support.annotation.NonNull;
 
 import com.example.bobyk.np.models.authorization.Driver;
 import com.example.bobyk.np.models.authorization.User;
+import com.example.bobyk.np.models.main.City;
+import com.example.bobyk.np.models.main.Delivery;
 import com.example.bobyk.np.models.main.Message;
 import com.example.bobyk.np.models.main.Point;
 import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.main.users.deliveryInfo.DeliveryInfoView;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
@@ -137,17 +140,38 @@ public class DeliveryInfoPresenter implements IDeliveryInfoPresenter {
     }
 
     @Override
-    public void findDelivery(String deliveryId) {
-        mDatabase.child("deliveries").child(deliveryId).child("driverId").addValueEventListener(new ValueEventListener() {
+    public void findDelivery(final String deliveryId) {
+        mDatabase.child("deliveries").child(deliveryId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                driverId = dataSnapshot.getValue(String.class);
-                findDriver();
+                Delivery delivery = dataSnapshot.getValue(Delivery.class);
+                if (delivery != null) {
+                    driverId = delivery.getDriverId();
+                    recipientLocation(delivery.getRecipientLocation());
+                }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 mView.onError();
+            }
+        });
+    }
+
+    private void recipientLocation(String name) {
+        mDatabase.child("cities").child(name).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                City city = dataSnapshot.getValue(City.class);
+                if (city != null) {
+                    mView.setRecipientLocation(new LatLng(city.getLatitude(), city.getLongitude()));
+                }
+                findDriver();
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

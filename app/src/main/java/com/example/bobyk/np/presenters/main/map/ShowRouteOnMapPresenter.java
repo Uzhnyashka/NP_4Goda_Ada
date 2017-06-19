@@ -47,7 +47,6 @@ public class ShowRouteOnMapPresenter implements IShowRouteOnMapPresenter {
                 pointList.add(point);
             } else {
                 Point point1 = pointList.get(pointList.size() - 1);
-                System.out.println("WWW loadList " + pointList.size());
                 mPoints.add(pointList);
                 pointList = new ArrayList<>();
                 pointList.add(point1);
@@ -60,7 +59,7 @@ public class ShowRouteOnMapPresenter implements IShowRouteOnMapPresenter {
         next();
     }
 
-    private void loadPartOfPoints(List<Point> points, final boolean last) {
+    private void loadPartOfPoints(List<Point> points) {
         String s = getPointsString(points);
         mRoutePointCB = model.getRoutePoints(s, "AIzaSyAisRRKbxyglbref6-OrgCnROtXHx83WAg");
         mRoutePointCB.enqueue(new Callback<RoutePoints>() {
@@ -75,18 +74,13 @@ public class ShowRouteOnMapPresenter implements IShowRouteOnMapPresenter {
 
                     mPartsOfPoints.add(latLngs);
                 }
-                if (last) {
-                    mView.successLoadRoutePoints(mPartsOfPoints);
-                } else {
-                    next();
-                }
+                next();
             }
 
 
 
             @Override
             public void onFailure(Call<RoutePoints> call, Throwable t) {
-                System.out.println("WWW points fail");
                 mView.onError();
             }
         });
@@ -105,10 +99,11 @@ public class ShowRouteOnMapPresenter implements IShowRouteOnMapPresenter {
 
     private void next() {
         kol++;
-        boolean ok = false;
-        if (kol == mPoints.size() - 1) {
-            ok = true;
+        if (kol <= mPoints.size() - 1) {
+            loadPartOfPoints(mPoints.get(kol));
         }
-        loadPartOfPoints(mPoints.get(kol), ok);
+        else {
+            mView.successLoadRoutePoints(mPartsOfPoints);
+        }
     }
 }

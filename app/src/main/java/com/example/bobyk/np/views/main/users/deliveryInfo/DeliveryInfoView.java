@@ -2,6 +2,7 @@ package com.example.bobyk.np.views.main.users.deliveryInfo;
 
 import com.example.bobyk.np.models.authorization.User;
 import com.example.bobyk.np.models.main.Point;
+import com.google.android.gms.maps.model.LatLng;
 
 import java.util.List;
 
@@ -17,4 +18,5 @@ public interface DeliveryInfoView {
     void successSetDeliveredStatus();
     void successSetObtainedStatus();
     void successFindDeliveryLocation(List<Point> points);
+    void setRecipientLocation(LatLng point);
 }

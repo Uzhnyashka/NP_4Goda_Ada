@@ -19,6 +19,7 @@ import com.example.bobyk.np.presenters.main.users.deliveryInfo.DeliveryInfoPrese
 import com.example.bobyk.np.utils.SPManager;
 import com.example.bobyk.np.utils.Utils;
 import com.example.bobyk.np.views.main.map.ShowRouteOnMapFragment;
+import com.google.android.gms.maps.model.LatLng;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -70,6 +71,7 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
     private int mNum;
     private User mSenderUser;
     private User mRecipientUser;
+    private LatLng mPoint = new LatLng(0, 0);
 
     public static DeliveryInfoFragment newInstance(Delivery delivery, int num) {
         Bundle args = new Bundle();
@@ -100,11 +102,11 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
     private void init() {
         mPresenter.loadRecipientUser(mDelivery.getRecipientId());
         mPresenter.loadSenderUser(mDelivery.getSenderId());
-        mDeliveryIdTextView.setText(mDelivery.getId());
+        mDeliveryIdTextView.setText("Number #" + mDelivery.getId());
         mSenderLocationTextView.setText(mDelivery.getSenderLocation());
         mRecipientLocationTextView.setText(mDelivery.getRecipientLocation());
         mSendDateTextView.setText(mDelivery.getSendDate());
-        mRecipientDateTextView.setText(mDelivery.getRecipientDate());
+        mRecipientDateTextView.setText(mDelivery.getSendDate());
         initStatus();
     }
 
@@ -230,7 +232,12 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
 
     @Override
     public void successFindDeliveryLocation(List<Point> pointList) {
-        EventBus.getDefault().post(new EventMainChangeFragment(ShowRouteOnMapFragment.newInstance(pointList, "Delivery"), true, mNum));
+        EventBus.getDefault().post(new EventMainChangeFragment(ShowRouteOnMapFragment.newInstance(pointList, mPoint, "Delivery"), true, mNum));
+    }
+
+    @Override
+    public void setRecipientLocation(LatLng point) {
+        mPoint = point;
     }
 
     private void setNum(int num) {

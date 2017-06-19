@@ -23,6 +23,8 @@ public class Delivery {
     private String recipientName;
     private String senderId;
     private String recipientId;
+    private String senderPhone;
+    private String recipientPhone;
     private Double weight;
 
     public Delivery() {
@@ -165,6 +167,22 @@ public class Delivery {
 
     public void setSenderId(String senderId) {
         this.senderId = senderId;
+    }
+
+    public String getRecipientPhone() {
+        return recipientPhone;
+    }
+
+    public void setRecipientPhone(String recipientPhone) {
+        this.recipientPhone = recipientPhone;
+    }
+
+    public String getSenderPhone() {
+        return senderPhone;
+    }
+
+    public void setSenderPhone(String senderPhone) {
+        this.senderPhone = senderPhone;
     }
 }
 

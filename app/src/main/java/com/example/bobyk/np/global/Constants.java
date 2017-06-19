@@ -21,4 +21,6 @@ public class Constants {
     public static final String PARAM_NAME_CITY                 = "NAMECITY";
 
     public static final String ROLE                            = "ROLE";
+
+    public static final String FACEBOOK_PERMISSION_EMAIL       = "email";
 }

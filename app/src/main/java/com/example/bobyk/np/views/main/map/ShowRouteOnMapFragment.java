@@ -21,6 +21,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.CameraPosition;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -47,15 +48,17 @@ public class ShowRouteOnMapFragment extends Fragment implements ShowRouteOnMapVi
     private List<Point> mPoints;
     private String mLabel;
     private ShowRouteOnMapPresenter mPresenter;
+    private LatLng mDestination;
 
     private GoogleMap googleMap;
 
-    public static ShowRouteOnMapFragment newInstance(List<Point> points, String label) {
+    public static ShowRouteOnMapFragment newInstance(List<Point> points, LatLng destination, String label) {
         Bundle args = new Bundle();
         ShowRouteOnMapFragment fragment = new ShowRouteOnMapFragment();
         fragment.setArguments(args);
         fragment.setPoints(points);
         fragment.setLabel(label);
+        fragment.setDestination(destination);
         return fragment;
     }
 
@@ -119,6 +122,10 @@ public class ShowRouteOnMapFragment extends Fragment implements ShowRouteOnMapVi
         mPoints = points;
     }
 
+    private void setDestination(LatLng destination) {
+        mDestination = destination;
+    }
+
     private void drawRoute(final List<List<LatLng>> points) {
         mMapView.getMapAsync(new OnMapReadyCallback() {
             @Override
@@ -147,15 +154,23 @@ public class ShowRouteOnMapFragment extends Fragment implements ShowRouteOnMapVi
                     k++;
                     if (k == 1) {
                         LatLng delivery = latLngs.get(0);
-                        googleMap.addMarker(new MarkerOptions().position(delivery).title(mLabel));
-                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(delivery).zoom(12).build()));
+                        googleMap.addMarker(new MarkerOptions().position(delivery).title("Start"));
                     }
 
                     polylines.get(k - 1).setPoints(latLngs);
 
                     if (k == points.size()) {
-                        googleMap.addMarker(new MarkerOptions().position(latLngs.get(latLngs.size() - 1)).title(mLabel));
+                        LatLng delivery = latLngs.get(points.size() - 1);
+                        googleMap.addMarker(new MarkerOptions().position(latLngs.get(latLngs.size() - 1)).title(mLabel).icon(BitmapDescriptorFactory
+                                .defaultMarker(BitmapDescriptorFactory.HUE_AZURE)));
+                        googleMap.animateCamera(CameraUpdateFactory.newCameraPosition(new CameraPosition.Builder().target(delivery).zoom(12).build()));
                     }
+                }
+                if (mDestination.longitude == 0 && mDestination.latitude == 0) {
+
+                } else {
+                    googleMap.addMarker(new MarkerOptions().position(mDestination).title("Destination").icon(BitmapDescriptorFactory
+                            .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
                 }
 
                 // For showing a move to my location button

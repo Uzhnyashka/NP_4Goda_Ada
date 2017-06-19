@@ -112,7 +112,7 @@ public class DriverInfoFragment extends Fragment implements DriverInfoView {
         List<Point> points = mDriver.getPoints();
         if (points != null && points.size() > 0) {
             EventBus.getDefault().post(new EventMainChangeFragment(
-                    ShowRouteOnMapFragment.newInstance(points, "Driver"), true, 4));
+                    ShowRouteOnMapFragment.newInstance(points, new LatLng(0,0), "Driver"), true, 4));
         } else {
             Utils.showToastMessage(getActivity(), "Driver location data is empty");
         }
