@@ -72,29 +72,33 @@ public class MessagesPresenter implements IMessagesPresenter {
 
     private void next() {
         pos++;
-        final Message message = messages.get(pos);
+        if (pos < messages.size()) {
+            final Message message = messages.get(pos);
 
-        mDatabase.child("deliveries").child(message.getDeliveryId()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Delivery delivery = dataSnapshot.getValue(Delivery.class);
-                if (delivery != null) {
-                    messages.get(pos).setSenderFullName(delivery.getSenderName());
-                    messages.get(pos).setRecipientFullName(delivery.getRecipientName());
-                    messages.get(pos).setSenderLocation(delivery.getSenderLocation());
-                    messages.get(pos).setRecipientLocation(delivery.getRecipientLocation());
+            mDatabase.child("deliveries").child(message.getDeliveryId()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Delivery delivery = dataSnapshot.getValue(Delivery.class);
+                    if (delivery != null) {
+                        messages.get(pos).setSenderFullName(delivery.getSenderName());
+                        messages.get(pos).setRecipientFullName(delivery.getRecipientName());
+                        messages.get(pos).setSenderLocation(delivery.getSenderLocation());
+                        messages.get(pos).setRecipientLocation(delivery.getRecipientLocation());
+                    }
+                    if (pos == messages.size() - 1) {
+                        mView.setNotificationList(messages);
+                    } else {
+                        next();
+                    }
                 }
-                if (pos == messages.size() - 1) {
-                    mView.setNotificationList(messages);
-                } else {
-                    next();
-                }
-            }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                mView.onError();
-            }
-        });
+                @Override
+                public void onCancelled(DatabaseError databaseError) {
+                    mView.onError();
+                }
+            });
+        } else {
+            mView.setNotificationList(messages);
+        }
     }
 }

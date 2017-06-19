@@ -51,7 +51,7 @@ public class MessagesFragment extends Fragment implements MessagesView {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_notification, null);
+        View view = inflater.inflate(R.layout.fragment_messages, null);
 
         ButterKnife.bind(this, view);
         init();
