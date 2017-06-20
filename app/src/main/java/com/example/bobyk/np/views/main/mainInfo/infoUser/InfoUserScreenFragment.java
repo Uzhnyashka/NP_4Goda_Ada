@@ -94,7 +94,7 @@ public class InfoUserScreenFragment extends Fragment {
 
     @OnClick(R.id.rl_my_deliveries)
     public void onDeliveriesClick() {
-        EventBus.getDefault().post(new EventMainChangeFragment(DeliveriesFragment.newInstance(), true, 2));
+        EventBus.getDefault().post(new EventMainChangeFragment(DeliveriesFragment.newInstance("My deliveries"), true, 2));
     }
 
 
@@ -102,4 +102,5 @@ public class InfoUserScreenFragment extends Fragment {
     public void onTrackClick() {
         EventBus.getDefault().post(new EventMainChangeFragment(TrackingFragment.newInstance(), true, 2));
     }
+
 }

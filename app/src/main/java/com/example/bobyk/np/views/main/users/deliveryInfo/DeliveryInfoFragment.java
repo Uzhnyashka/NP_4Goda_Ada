@@ -1,11 +1,17 @@
 package com.example.bobyk.np.views.main.users.deliveryInfo;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
@@ -72,6 +78,7 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
     private User mSenderUser;
     private User mRecipientUser;
     private LatLng mPoint = new LatLng(0, 0);
+    private Dialog dialog;
 
     public static DeliveryInfoFragment newInstance(Delivery delivery, int num) {
         Bundle args = new Bundle();
@@ -139,18 +146,21 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
             mSentButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    showProgressDialog();
                     mPresenter.setSendStatus(mDelivery.getId(), mDelivery.getRecipientId());
                 }
             });
             mDeliveredButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    showProgressDialog();
                     mPresenter.setDeliveredStatus(mDelivery.getId(), mDelivery.getRecipientId());
                 }
             });
             mObtainedButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    showProgressDialog();
                     mPresenter.setObtainedStatus(mDelivery.getId(), mDelivery.getRecipientId());
                 }
             });
@@ -212,21 +222,25 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
 
     @Override
     public void onError() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error");
     }
 
     @Override
     public void successSetSentStatus() {
+        hideProgressDialog();
         setActiveSentButton();
     }
 
     @Override
     public void successSetDeliveredStatus() {
+        hideProgressDialog();
         setActiveDeliveredButton();
     }
 
     @Override
     public void successSetObtainedStatus() {
+        hideProgressDialog();
         setActiveObtainedButton();
     }
 
@@ -247,5 +261,30 @@ public class DeliveryInfoFragment extends Fragment implements DeliveryInfoView {
     @OnClick(R.id.btn_find_delivery)
     public void onFindDeliveryClick() {
         mPresenter.findDelivery(mDelivery.getId());
+    }
+
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
     }
 }

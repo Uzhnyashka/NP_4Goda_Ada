@@ -1,16 +1,22 @@
 package com.example.bobyk.np.views.main.mainInfo.tracking;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 
@@ -54,6 +60,7 @@ public class TrackingFragment extends Fragment implements TrackingView {
     boolean ok = false;
 
     private GoogleMap googleMap;
+    private Dialog dialog;
 
     public static TrackingFragment newInstance() {
         Bundle args = new Bundle();
@@ -138,6 +145,7 @@ public class TrackingFragment extends Fragment implements TrackingView {
             InputMethodManager imm = (InputMethodManager)getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+        showProgressDialog();
         mPresenter.findDelivery(mDeliveryNumberEditText.getText().toString());
     }
 
@@ -148,6 +156,7 @@ public class TrackingFragment extends Fragment implements TrackingView {
 
     @Override
     public void successLoadRoutePoints(List<List<LatLng>> points) {
+        hideProgressDialog();
         drawRoute(points);
     }
 
@@ -204,6 +213,7 @@ public class TrackingFragment extends Fragment implements TrackingView {
 
     @Override
     public void onError() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error find delivery");
     }
 
@@ -212,5 +222,30 @@ public class TrackingFragment extends Fragment implements TrackingView {
         ok = true;
         googleMap.addMarker(new MarkerOptions().position(point).title("Destination").icon(BitmapDescriptorFactory
                 .defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+    }
+
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
     }
 }

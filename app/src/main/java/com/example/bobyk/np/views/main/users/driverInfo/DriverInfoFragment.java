@@ -1,12 +1,18 @@
 package com.example.bobyk.np.views.main.users.driverInfo;
 
+import android.app.Dialog;
 import android.graphics.Bitmap;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.TextView;
 
 import com.example.bobyk.np.R;
@@ -56,6 +62,7 @@ public class DriverInfoFragment extends Fragment implements DriverInfoView {
     private Driver mDriver;
     private DisplayImageOptions mOptions;
     private ImageLoader imageLoader;
+    private Dialog dialog;
 
     public static DriverInfoFragment newInstance(Driver driver) {
         Bundle args = new Bundle();
@@ -145,6 +152,31 @@ public class DriverInfoFragment extends Fragment implements DriverInfoView {
                 .imageScaleType(ImageScaleType.EXACTLY)
                 .displayer(new FadeInBitmapDisplayer(300))
                 .build();
+    }
+
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
     }
 
     @Override

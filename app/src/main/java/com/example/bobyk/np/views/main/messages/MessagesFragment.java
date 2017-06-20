@@ -1,13 +1,19 @@
 package com.example.bobyk.np.views.main.messages;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.MessagesAdapter;
@@ -33,6 +39,7 @@ public class MessagesFragment extends Fragment implements MessagesView {
     private MessagesPresenter mPresenter;
     private MessagesAdapter mAdapter;
     private List<Message> mNotifications = new ArrayList<>();
+    private Dialog dialog;
 
     public static MessagesFragment newInstance() {
         Bundle args = new Bundle();
@@ -60,6 +67,7 @@ public class MessagesFragment extends Fragment implements MessagesView {
     }
 
     private void init() {
+        showProgressDialog();
         mPresenter.loadNotifications();
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mNotificationsRecyclerView.setLayoutManager(manager);
@@ -72,6 +80,7 @@ public class MessagesFragment extends Fragment implements MessagesView {
 
     @Override
     public void setNotificationList(List<Message> notifications) {
+        hideProgressDialog();
         mNotifications.clear();
         mNotifications.addAll(notifications);
         mAdapter.notifyDataSetChanged();
@@ -79,6 +88,32 @@ public class MessagesFragment extends Fragment implements MessagesView {
 
     @Override
     public void onError() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error load messages");
+    }
+
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
     }
 }

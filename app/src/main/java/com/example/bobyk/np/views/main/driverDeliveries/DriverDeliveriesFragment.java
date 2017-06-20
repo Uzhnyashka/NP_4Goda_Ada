@@ -1,13 +1,19 @@
 package com.example.bobyk.np.views.main.driverDeliveries;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.DeliveriesAdapter;
@@ -37,6 +43,7 @@ public class DriverDeliveriesFragment extends Fragment implements DriverDeliveri
     private DriverDeliveriesPresenter mPresenter;
     private List<Delivery> deliveryList = new ArrayList<>();
     private DeliveriesAdapter mAdapter;
+    private Dialog dialog;
 
     public static DriverDeliveriesFragment newInstance() {
         Bundle args = new Bundle();
@@ -64,6 +71,7 @@ public class DriverDeliveriesFragment extends Fragment implements DriverDeliveri
     }
 
     private void init() {
+        showProgressDialog();
         mPresenter.loadDriverDeliveries();
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mDriverDeliveriesRecyclerView.setLayoutManager(manager);
@@ -76,6 +84,7 @@ public class DriverDeliveriesFragment extends Fragment implements DriverDeliveri
 
     @Override
     public void onSuccessLoadDeliveries(List<Delivery> deliveries) {
+        hideProgressDialog();
         deliveryList.clear();
         deliveryList.addAll(deliveries);
         mAdapter.notifyDataSetChanged();
@@ -83,6 +92,32 @@ public class DriverDeliveriesFragment extends Fragment implements DriverDeliveri
 
     @Override
     public void onError() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error");
+    }
+
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
     }
 }

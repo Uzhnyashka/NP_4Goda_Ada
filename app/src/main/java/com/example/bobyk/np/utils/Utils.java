@@ -4,13 +4,22 @@ import android.app.Activity;
 import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Environment;
 import android.provider.DocumentsContract;
 import android.provider.MediaStore;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
+
+import com.example.bobyk.np.R;
 
 import java.io.File;
 import java.io.IOException;
@@ -230,4 +239,5 @@ public abstract class Utils {
     public static String getRecipientLocation() {
         return recipientLocation;
     }
+
 }

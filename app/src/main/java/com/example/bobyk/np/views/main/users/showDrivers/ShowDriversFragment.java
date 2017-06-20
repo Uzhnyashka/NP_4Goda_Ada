@@ -1,13 +1,19 @@
 package com.example.bobyk.np.views.main.users.showDrivers;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.ShowDriversAdapter;
@@ -40,6 +46,7 @@ public class ShowDriversFragment extends Fragment implements ShowDriversView {
     private ShowDriversPresenter mPresenter;
     private ShowDriversAdapter mAdapter;
     private List<Driver> mDriverList = new ArrayList<>();
+    private Dialog dialog;
 
     public static ShowDriversFragment newInstance() {
         Bundle args = new Bundle();
@@ -67,6 +74,7 @@ public class ShowDriversFragment extends Fragment implements ShowDriversView {
     }
 
     private void init() {
+        showProgressDialog();
         mPresenter.loadDrivers();
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mDriversRecyclerView.setLayoutManager(manager);
@@ -81,13 +89,40 @@ public class ShowDriversFragment extends Fragment implements ShowDriversView {
 
     @Override
     public void onSuccessLoadDrivers(List<Driver> drivers) {
+        hideProgressDialog();
         mDriverList.clear();
         mDriverList.addAll(drivers);
         mAdapter.notifyDataSetChanged();
     }
 
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
+    }
+
     @Override
     public void onError() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error load drivers");
     }
 

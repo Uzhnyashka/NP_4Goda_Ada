@@ -1,15 +1,21 @@
 package com.example.bobyk.np.views.main.map;
 
 import android.Manifest;
+import android.app.Dialog;
 import android.content.pm.PackageManager;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.models.main.Point;
@@ -51,6 +57,7 @@ public class ShowRouteOnMapFragment extends Fragment implements ShowRouteOnMapVi
     private LatLng mDestination;
 
     private GoogleMap googleMap;
+    private Dialog dialog;
 
     public static ShowRouteOnMapFragment newInstance(List<Point> points, LatLng destination, String label) {
         Bundle args = new Bundle();
@@ -81,6 +88,7 @@ public class ShowRouteOnMapFragment extends Fragment implements ShowRouteOnMapVi
     }
 
     private void initMap() {
+        showProgressDialog();
         mPresenter.loadRoutePoints(mPoints);
         mMapView.onResume();
 
@@ -183,13 +191,40 @@ public class ShowRouteOnMapFragment extends Fragment implements ShowRouteOnMapVi
         });
     }
 
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
+    }
+
     @Override
     public void successLoadRoutePoints(List<List<LatLng>> points) {
+        hideProgressDialog();
         drawRoute(points);
     }
 
     @Override
     public void onError() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error");
     }
 }

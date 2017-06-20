@@ -134,6 +134,6 @@ public class InfoAdminScreenFragment extends Fragment {
 
     @OnClick(R.id.rl_my_deliveries)
     public void onDeliveriesClick() {
-        EventBus.getDefault().post(new EventMainChangeFragment(DeliveriesFragment.newInstance(), true, 2));
+        EventBus.getDefault().post(new EventMainChangeFragment(DeliveriesFragment.newInstance("All deliveries"), true, 2));
     }
 }

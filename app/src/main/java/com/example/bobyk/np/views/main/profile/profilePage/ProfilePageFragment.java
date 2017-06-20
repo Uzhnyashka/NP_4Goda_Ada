@@ -2,19 +2,25 @@ package com.example.bobyk.np.views.main.profile.profilePage;
 
 import android.Manifest;
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -74,6 +80,7 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
     private Driver mDriver;
     private Admin mAdmin;
     private Bitmap mUserPhotoBitmap;
+    private Dialog dialog;
 
     public static ProfilePageFragment newInstance() {
         Bundle args = new Bundle();
@@ -101,6 +108,7 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
     }
 
     private void init() {
+        showProgressDialog();
         mPresenter.initData();
     }
 
@@ -143,6 +151,7 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
 
     @Override
     public void setUserData(BaseAuthModel user) {
+        hideProgressDialog();
         mUser = user;
     }
 
@@ -171,6 +180,7 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
 
     @Override
     public void error() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error");
     }
 
@@ -253,6 +263,31 @@ public class ProfilePageFragment extends Fragment implements ProfilePageView {
 
             return;
         }
+    }
+
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
     }
 
 

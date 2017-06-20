@@ -1,13 +1,19 @@
 package com.example.bobyk.np.views.main.users.userDeliveries;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.adapters.DeliveriesAdapter;
@@ -26,6 +32,7 @@ import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import butterknife.OnClick;
 
 /**
  * Created by bobyk on 6/11/17.
@@ -40,6 +47,7 @@ public class UserDeliveriesFragment extends Fragment implements UserDeliveriesVi
     private UserDeliveriesPresenter mPresenter;
     private DeliveriesAdapter mAdapter;
     private List<Delivery> mDeliveryList = new ArrayList<>();
+    private Dialog dialog;
 
     public static UserDeliveriesFragment newInstance(User user) {
         Bundle args = new Bundle();
@@ -68,6 +76,7 @@ public class UserDeliveriesFragment extends Fragment implements UserDeliveriesVi
     }
 
     private void init() {
+        showProgressDialog();
         mPresenter.loadDeliveriesForUser(mUser.getEmail());
         LinearLayoutManager manager = new LinearLayoutManager(getActivity());
         mDeliveriesRecyclerView.setLayoutManager(manager);
@@ -82,17 +91,49 @@ public class UserDeliveriesFragment extends Fragment implements UserDeliveriesVi
 
     @Override
     public void successLoadUserDeliveries(List<Delivery> deliveries) {
+        hideProgressDialog();
         mDeliveryList.clear();
         mDeliveryList.addAll(deliveries);
         mAdapter.notifyDataSetChanged();
     }
 
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
+    }
+
     @Override
     public void onError() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Error load user deliveries");
     }
 
     private void setUser(User user) {
         mUser = user;
+    }
+
+    @OnClick(R.id.btn_back)
+    public void onBackClick() {
+        getActivity().onBackPressed();
     }
 }

@@ -1,11 +1,17 @@
 package com.example.bobyk.np.views.main.mainInfo.addAdmin;
 
+import android.app.Dialog;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AlertDialog;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.EditText;
 
 import com.example.bobyk.np.R;
@@ -38,6 +44,7 @@ public class AddAdminFragment extends Fragment implements AddAdminView {
 
     private AddAdminPresenter mPresenter;
     private Admin mAdmin;
+    private Dialog dialog;
 
     public static AddAdminFragment newInstance() {
         Bundle args = new Bundle();
@@ -66,6 +73,7 @@ public class AddAdminFragment extends Fragment implements AddAdminView {
     public void onRegisterClick() {
         if (mPasswordEditText.getText().toString().equals(mConfirmPasswordEditText.getText().toString())) {
             initDriverData();
+            showProgressDialog();
             mPresenter.registerAdmin(mAdmin, mPasswordEditText.getText().toString());
         } else {
             Utils.showToastMessage(getActivity(), "Confirm password is wrong");
@@ -74,12 +82,14 @@ public class AddAdminFragment extends Fragment implements AddAdminView {
 
     @Override
     public void onSuccessRegisterAdmin() {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), "Success register ");
         getActivity().onBackPressed();
     }
 
     @Override
     public void onFailedRegisterAdmin(String message) {
+        hideProgressDialog();
         Utils.showToastMessage(getActivity(), message);
     }
 
@@ -96,5 +106,29 @@ public class AddAdminFragment extends Fragment implements AddAdminView {
     @OnClick(R.id.btn_back)
     public void onBackClick() {
         getActivity().onBackPressed();
+    }
+
+    private void showProgressDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+        builder.setCancelable(false);
+
+        LayoutInflater inflater = getActivity().getLayoutInflater();
+        View dialogView = inflater.inflate(R.layout.dialog_progress_bar, null);
+        builder.setView(dialogView);
+
+        dialog = builder.create();
+
+        dialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+
+        dialog.show();
+
+        Display display = getActivity().getWindowManager().getDefaultDisplay();
+
+        Window window = dialog.getWindow();
+        window.setLayout(display.getWidth() - 100, ViewGroup.LayoutParams.WRAP_CONTENT);
+    }
+
+    private void hideProgressDialog() {
+        dialog.cancel();
     }
 }

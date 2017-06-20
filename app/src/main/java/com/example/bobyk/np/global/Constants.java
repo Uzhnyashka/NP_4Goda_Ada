@@ -23,4 +23,5 @@ public class Constants {
     public static final String ROLE                            = "ROLE";
 
     public static final String FACEBOOK_PERMISSION_EMAIL       = "email";
+    public static final int RC_SIGN_IN                         = 9001;
 }

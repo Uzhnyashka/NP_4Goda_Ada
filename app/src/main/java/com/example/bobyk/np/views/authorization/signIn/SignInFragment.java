@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.example.bobyk.np.R;
 import com.example.bobyk.np.event.EventAuthChangeFragment;
+import com.example.bobyk.np.global.Constants;
 import com.example.bobyk.np.presenters.authorization.signIn.SignInPresenter;
 import com.example.bobyk.np.utils.Role;
 import com.example.bobyk.np.utils.Utils;
@@ -26,24 +27,32 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.GoogleAuthProvider;
 
 import org.greenrobot.eventbus.EventBus;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import okhttp3.internal.Util;
 
 /**
  * Created by bobyk on 3/25/17.
  */
 
-public class SignInFragment extends Fragment implements SignInView {
+public class SignInFragment extends Fragment implements SignInView, GoogleApiClient.OnConnectionFailedListener {
 
     private String TAG = getClass().getSimpleName();
     
@@ -68,6 +77,7 @@ public class SignInFragment extends Fragment implements SignInView {
     private SignInPresenter mPresenter;
     private CallbackManager mCallbackManager;
     private String fbEmail = "";
+    private GoogleApiClient mGoogleApiClient;
 
     public static SignInFragment newInstance(Role role) {
         Bundle args = new Bundle();
@@ -108,6 +118,16 @@ public class SignInFragment extends Fragment implements SignInView {
             socialRelativeLayout.setVisibility(View.GONE);
             orRelativeLayout.setVisibility(View.GONE);
         }
+
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleApiClient = new GoogleApiClient.Builder(getActivity())
+                .enableAutoManage(getActivity(), this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .build();
     }
 
     private void setRole(Role role) {
@@ -196,6 +216,51 @@ public class SignInFragment extends Fragment implements SignInView {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        mPresenter.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == Constants.RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            System.out.println("WWW res " + result.getStatus());
+            if (result.isSuccess()) {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = result.getSignInAccount();
+                successGoogleSignIn(account);
+            } else {
+                // Google Sign In failed, update UI appropriately
+                // [START_EXCLUDE]
+                failedGoogleSignIn();
+                // [END_EXCLUDE]
+            }
+        } else {
+            mPresenter.onActivityResult(requestCode, resultCode, data);
+        }
+    }
+
+    @OnClick(R.id.btn_google)
+    public void onGoogleClick() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, Constants.RC_SIGN_IN);
+    }
+
+    private void successGoogleSignIn(final GoogleSignInAccount account) {
+        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
+        mAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(),
+                new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    mPresenter.isRegistred(account.getEmail());
+                } else {
+                    Utils.showToastMessage(getActivity(), "Error google auth");
+                }
+            }
+        });
+    }
+
+    private void failedGoogleSignIn() {
+        Utils.showToastMessage(getActivity(), "Error google auth1");
+    }
+
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
+        Utils.showToastMessage(getActivity(), "Can not connect to Google Play Services");
     }
 }
